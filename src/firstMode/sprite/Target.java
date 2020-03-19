@@ -29,20 +29,8 @@ public class Target extends Sprite implements Commons, Type {
 
 	public void setType(int type) {
 		this.type = type;
-		String playerImg = null;
-		Image ii = null;
-		switch(type) {
-		case 0:
-	        playerImg = ClassLoader.getSystemResource("images/target_0.png").toString();
-			break;
-		case 1:
-	        playerImg = ClassLoader.getSystemResource("images/target_1.png").toString();
-			break;
-		case 2:
-	        playerImg = ClassLoader.getSystemResource("images/target_2.png").toString();
-			break;
-		}
-        ii = new Image(playerImg);
+		String playerImg = ClassLoader.getSystemResource("images/target_" + type + ".png").toString();;
+		Image ii = new Image(playerImg);
         setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT));
 	}
 }

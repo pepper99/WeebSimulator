@@ -42,20 +42,8 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	@Override
 	public void setType(int type) {
 		this.type = type;
-		String playerImg = null;
-		Image ii = null;
-		switch(type) {
-		case 0:
-	        playerImg = ClassLoader.getSystemResource("images/player_0.png").toString();
-			break;
-		case 1:
-	        playerImg = ClassLoader.getSystemResource("images/player_1.png").toString();
-			break;
-		case 2:
-	        playerImg = ClassLoader.getSystemResource("images/player_2.png").toString();
-			break;
-		}
-        ii = new Image(playerImg);
+		String playerImg = ClassLoader.getSystemResource("images/player_" + type + ".png").toString();;
+		Image ii = new Image(playerImg);
         setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT));
 	}
 
