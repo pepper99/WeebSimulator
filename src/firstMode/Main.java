@@ -11,6 +11,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -28,10 +30,12 @@ public class Main extends Application implements Commons {
 	private String message = "Game Over";
 	
 	private GraphicsContext graphicsContext;
+	private MediaPlayer mediaPlayer;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		GameController.initController();
+		musicInit();
 		
 		StackPane root = new StackPane();
 		
@@ -76,6 +80,8 @@ public class Main extends Application implements Commons {
 		primaryStage.setTitle("Weeb Simulator 2020");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		mediaPlayer.play();
 	}
 
 	private void update() {
@@ -157,6 +163,7 @@ public class Main extends Application implements Commons {
 			drawScore(graphicsContext);
 		}
 		else {
+			mediaPlayer.stop();
 			gameOver(graphicsContext);
 		}
 	}
@@ -183,5 +190,11 @@ public class Main extends Application implements Commons {
 		g.setTextAlign(TextAlignment.CENTER);
         g.fillText( message, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
         g.strokeText( message, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
+	}
+	
+	private void musicInit() {
+		Media h = new Media(ClassLoader.getSystemResource("musics/bgm.mp3").toString());
+		mediaPlayer = new MediaPlayer(h);
+		mediaPlayer.play();
 	}
 }
