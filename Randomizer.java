@@ -70,7 +70,7 @@ public class Randomizer implements Commons {
 //				
 				if(tempX.get(0) > tempX.get(1))
 					{	
-						if(tempX.get(0) - tempX.get(1) > 2*TARGET_WIDTH)
+						if(tempX.get(0) - tempX.get(1) > TARGET_WIDTH)
 						{
 							int rand = random.nextInt(2);
 							if(rand == 0)
@@ -80,12 +80,12 @@ public class Randomizer implements Commons {
 							}
 							else if(rand == 1)
 							{
-								tempX.add(random.nextInt(tempX.get(0) -2*(TARGET_WIDTH + tempX.get(1))) +tempX.get(1) +TARGET_WIDTH);
+								tempX.add(random.nextInt(tempX.get(0) -(TARGET_WIDTH + tempX.get(1))) +tempX.get(1) +TARGET_WIDTH);
 //								tempX.add(random.nextInt(tempX.get(0) - tempX.get(0) - TARGET_WIDTH) + tempX.get(0) + TARGET_WIDTH);
 							}
 							else
 							{
-								tempX.add(random.nextInt(WINDOW_WIDTH - 2*(tempX.get(0) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(0));
+								tempX.add(random.nextInt(WINDOW_WIDTH - (tempX.get(0) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(0));
 							}
 						}
 						else
@@ -93,17 +93,17 @@ public class Randomizer implements Commons {
 							int rand = random.nextInt(1);
 							if(rand == 0)
 							{
-								tempX.add(random.nextInt(tempX.get(1) - 2* TARGET_WIDTH) + TARGET_WIDTH);
+								tempX.add(random.nextInt(tempX.get(1) - TARGET_WIDTH) + TARGET_WIDTH);
 							}
 							else
 							{
-								tempX.add(random.nextInt(WINDOW_WIDTH - 2*(tempX.get(0) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(0));
+								tempX.add(random.nextInt(WINDOW_WIDTH - (tempX.get(0) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(0));
 							}
 						}
 					}
 				else
 					{
-						if(tempX.get(1) - tempX.get(0) > 2*TARGET_WIDTH)
+						if(tempX.get(1) - tempX.get(0) > TARGET_WIDTH)
 						{
 							int rand = random.nextInt(2);
 							if(rand == 0)
@@ -112,11 +112,11 @@ public class Randomizer implements Commons {
 							}
 							else if(rand == 1)
 							{
-								tempX.add(random.nextInt(tempX.get(1) -2*(TARGET_WIDTH + tempX.get(0))) +tempX.get(0) +TARGET_WIDTH);
+								tempX.add(random.nextInt(tempX.get(1) -(TARGET_WIDTH + tempX.get(0))) +tempX.get(0) +TARGET_WIDTH);
 							}
 							else
 							{
-								tempX.add(random.nextInt(WINDOW_WIDTH - 2*(tempX.get(1) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(1));
+								tempX.add(random.nextInt(WINDOW_WIDTH - (tempX.get(1) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(1));
 							}
 						}
 						else
@@ -128,13 +128,13 @@ public class Randomizer implements Commons {
 							}
 							else
 							{
-								tempX.add(random.nextInt(WINDOW_WIDTH - 2*(tempX.get(1) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(1));
+								tempX.add(random.nextInt(WINDOW_WIDTH - (tempX.get(1) + TARGET_WIDTH)) + TARGET_WIDTH + tempX.get(1));
 							}
 						}
 					}
 				if(tempY.get(0) > tempY.get(1))
 					{
-						if(tempY.get(0) - tempY.get(1) > 2*TARGET_HEIGHT)
+						if(tempY.get(0) - tempY.get(1) > TARGET_HEIGHT)
 						{
 							int rand = random.nextInt(2);
 							if(rand == 0)
@@ -143,11 +143,11 @@ public class Randomizer implements Commons {
 							}
 							else if(rand == 1)
 							{
-								tempY.add(random.nextInt(tempY.get(0) -2*(TARGET_HEIGHT + tempY.get(1))) +tempY.get(1) +TARGET_HEIGHT);
+								tempY.add(random.nextInt(tempY.get(0) -(TARGET_HEIGHT + tempY.get(1))) +tempY.get(1) +TARGET_HEIGHT);
 							}
 							else
 							{
-								tempY.add(random.nextInt(WINDOW_HEIGHT - 2*(tempY.get(0) + TARGET_HEIGHT)) + TARGET_HEIGHT + tempY.get(0));
+								tempY.add(random.nextInt(WINDOW_HEIGHT - (tempY.get(0) + TARGET_HEIGHT)) + TARGET_HEIGHT + tempY.get(0));
 							}
 						}
 						else
@@ -165,7 +165,7 @@ public class Randomizer implements Commons {
 					}
 				else
 					{
-					if(tempY.get(1) - tempY.get(0) > 2*TARGET_HEIGHT)
+					if(tempY.get(1) - tempY.get(0) > TARGET_HEIGHT)
 						{
 							int rand = random.nextInt(2);
 							if(rand == 0)
@@ -174,11 +174,11 @@ public class Randomizer implements Commons {
 							}
 							else if(rand == 1)
 							{
-								tempY.add(random.nextInt(tempY.get(1) -2*(TARGET_HEIGHT + tempY.get(0))) +tempY.get(1) +TARGET_HEIGHT);
+								tempY.add(random.nextInt(tempY.get(1) -(TARGET_HEIGHT + tempY.get(0))) +tempY.get(1) +TARGET_HEIGHT);
 							}
 							else
 							{
-								tempY.add(random.nextInt(WINDOW_HEIGHT - 2*(tempY.get(1) + TARGET_HEIGHT)) + TARGET_HEIGHT + tempY.get(1));
+								tempY.add(random.nextInt(WINDOW_HEIGHT - (tempY.get(1) + TARGET_HEIGHT)) + TARGET_HEIGHT + tempY.get(1));
 							}
 						}
 					else
@@ -190,7 +190,7 @@ public class Randomizer implements Commons {
 							}
 							else
 							{
-								tempY.add(random.nextInt(WINDOW_HEIGHT - 2*(tempY.get(1) + TARGET_HEIGHT)) + TARGET_HEIGHT + tempY.get(1));
+								tempY.add(random.nextInt(WINDOW_HEIGHT - (tempY.get(1) + TARGET_HEIGHT)) + TARGET_HEIGHT + tempY.get(1));
 							}
 						}
 					}
