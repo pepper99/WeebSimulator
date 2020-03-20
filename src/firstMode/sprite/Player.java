@@ -19,6 +19,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
     private int playerSpeed;
 
 	public Player() {
+		super();
         initPlayer();
     }
 
@@ -32,6 +33,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
         setY(START_Y);
         
         setPlayerSpeed(GameController.getPlayerSpeed());
+        updateImage();
     }
     
 	@Override
@@ -42,6 +44,10 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	@Override
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	@Override
+	public void updateImage() {
 		String playerImg = ClassLoader.getSystemResource("images/player_" + type + ".png").toString();;
 		Image ii = new Image(playerImg);
         setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT));

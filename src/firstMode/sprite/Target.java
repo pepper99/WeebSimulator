@@ -14,6 +14,7 @@ public class Target extends Sprite implements Commons, Type {
 	private int type;
 
     public Target(int x, int y, int type) {
+		super();
         initTarget(x, y, type);
     }
 
@@ -21,6 +22,7 @@ public class Target extends Sprite implements Commons, Type {
     	setX(x);
         setY(y);
         setType(type);
+        updateImage();
     }
 
 	public int getType() {
@@ -29,8 +31,12 @@ public class Target extends Sprite implements Commons, Type {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+	
+	@Override
+	public void updateImage() {
 		String playerImg = ClassLoader.getSystemResource("images/target_" + type + ".png").toString();;
 		Image ii = new Image(playerImg);
-        setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT));
+        setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * index, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
 	}
 }

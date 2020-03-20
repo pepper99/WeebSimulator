@@ -2,6 +2,7 @@ package main;
 
 import firstMode.GameController;
 import firstMode.Randomizer;
+import firstMode.SpriteController;
 import firstMode.sprite.Player;
 import firstMode.sprite.Target;
 import javafx.animation.AnimationTimer;
@@ -34,9 +35,11 @@ public class Main extends Application implements Commons {
 	private GraphicsContext graphicsContext;
 	private MediaPlayer mediaPlayer;
 	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		GameController.initController();
+		SpriteController.initContorller();
 		musicInit();
 		
 		StackPane root = new StackPane();		
@@ -91,8 +94,12 @@ public class Main extends Application implements Commons {
 			GameController.setInGame(false);
 		}
 		else {
-			GameController.decreaseTime();			
+			GameController.decreaseTime();
+			SpriteController.increaseTime();
 		}
+		
+		// sprite update
+
 
 		// player
 		player.act();
@@ -138,6 +145,7 @@ public class Main extends Application implements Commons {
 		for (Target target : targets) {
 
 			if (target.isVisible()) {
+				SpriteController.switchSprite(target);
 				g.drawImage(target.getImage(), target.getX(), target.getY());
 			}
 		}
@@ -146,6 +154,7 @@ public class Main extends Application implements Commons {
 	private void drawPlayer(GraphicsContext g) {
 
 		if (player.isVisible()) {
+			SpriteController.switchSprite(player);
 			g.drawImage(player.getImage(), player.getX(), player.getY());
 		}
 	}
