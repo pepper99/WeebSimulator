@@ -1,9 +1,9 @@
 package firstMode;
 
 public class GameController {
-	public static final int START_TIME = 1000;
-	public static final int MAX_TIME = 1280;
-	public static final int TIME_INCREMENT = 200;
+	public static final int START_TIME = 9999;
+	public static final int MAX_TIME = 9999;
+	public static final int TIME_INCREMENT = 9999;
 	public static final int TIME_DECAY = 4;
 	public static final int DEFAULT_PLAYER_SPEED = 8;
 	
