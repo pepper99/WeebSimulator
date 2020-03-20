@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,10 +39,8 @@ public class Main extends Application implements Commons {
 		GameController.initController();
 		musicInit();
 		
-		StackPane root = new StackPane();
-		
-		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-		
+		StackPane root = new StackPane();		
+		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		graphicsContext = canvas.getGraphicsContext2D();
 		
@@ -196,6 +195,13 @@ public class Main extends Application implements Commons {
 	private void musicInit() {
 		Media h = new Media(ClassLoader.getSystemResource("musics/bgm.mp3").toString());
 		mediaPlayer = new MediaPlayer(h);
+		mediaPlayer.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
+	        	mediaPlayer.seek(Duration.ZERO);
+	        	mediaPlayer.play();
+	        }
+	    });
 		mediaPlayer.play();
 	}
 }
