@@ -5,17 +5,24 @@ public class GameController {
 	public static final int MAX_TIME = 1280;
 	public static final int TIME_INCREMENT = 50;
 	public static final int TIME_DECAY = 0;
+	
 	public static final int DEFAULT_PLAYER_SPEED = 8;
+	public static final int BOOSTED_PLAYER_SPEED = 15;
+	public static final int SLOWED_PLAYER_SPEED = 5;
+	
+	public static final int PLAYER_NORMAL = 0;
+	public static final int PLAYER_BOOST = 1;
+	public static final int PLAYER_SLOW = 2;
 	
 	public static boolean inGame = true;
 	public static int currentTime;
-	public static int playerSpeed;
+	public static int playerState;
 	public static int score;
 
 	public static void initController() {
 		setInGame(true);
 		setCurrentTime(START_TIME);
-		setPlayerSpeed(DEFAULT_PLAYER_SPEED);
+		setPlayerState(PLAYER_NORMAL);
 		setScore(0);
 	}
 	
@@ -40,11 +47,24 @@ public class GameController {
 	}
 	
 	public static int getPlayerSpeed() {
-		return playerSpeed;
+		switch(getPlayerState()) {
+		case PLAYER_NORMAL:
+			return DEFAULT_PLAYER_SPEED;
+		case PLAYER_BOOST:
+			return BOOSTED_PLAYER_SPEED;
+		case PLAYER_SLOW:
+			return SLOWED_PLAYER_SPEED;
+		default:
+			return DEFAULT_PLAYER_SPEED;			
+		}
+	}
+	
+	public static int getPlayerState() {
+		return playerState;
 	}
 
-	public static void setPlayerSpeed(int playerSpeed) {
-		GameController.playerSpeed = playerSpeed;
+	public static void setPlayerState(int playerState) {
+		GameController.playerState = playerState;
 	}
 
 	public static boolean isInGame() {

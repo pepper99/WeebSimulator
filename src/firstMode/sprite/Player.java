@@ -73,9 +73,13 @@ public class Player extends Sprite implements Commons, Type, Movable {
     
 	@Override
     public void keyPressed(KeyEvent e) {
+        KeyCode key = e.getCode();
+        
+        if (key.equals(KeyCode.SHIFT)) {
+        	GameController.setPlayerState(GameController.PLAYER_BOOST);
+        }
     	
     	playerSpeed = GameController.getPlayerSpeed();
-        KeyCode key = e.getCode();
 
         if (key.equals(KeyCode.LEFT)) {
 
@@ -97,14 +101,18 @@ public class Player extends Sprite implements Commons, Type, Movable {
             dy += playerSpeed;
         }
         
-        speedCeiling();
+        speedCeiling();        
     }
     
 	@Override
     public void keyReleased(KeyEvent e) {
+        KeyCode key = e.getCode();
+        
+        if (key.equals(KeyCode.SHIFT)) {
+        	GameController.setPlayerState(GameController.PLAYER_NORMAL);
+        }
     	
     	playerSpeed = GameController.getPlayerSpeed();
-        KeyCode key = e.getCode();
 
         if (key.equals(KeyCode.LEFT)) {
 
