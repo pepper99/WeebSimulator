@@ -1,6 +1,7 @@
-package firstMode;
+package main;
 
-import main.Commons;
+import firstMode.GameController;
+import firstMode.Randomizer;
 import firstMode.sprite.Player;
 import firstMode.sprite.Target;
 import javafx.animation.AnimationTimer;
