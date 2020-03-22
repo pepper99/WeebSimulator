@@ -95,14 +95,33 @@ public class Main extends Application implements Commons {
 		}
 		else {
 			GameController.decreaseTime();
+			GameController.checkBoostBan();
 			SpriteController.increaseTime();
+			
+			if(GameController.isBoostTrying() && GameController.canBoost()) {
+				GameController.decreasePlayerBoostGauge();
+			}
+			else if(!GameController.boostFull()) {
+				GameController.increasePlayerBoostGauge();
+			}
 		}
-		
-		// sprite update
-
 
 		// player
 		player.act();
+		
+		// player boost check
+
+    	if(GameController.isBoostTrying()) {
+    		if(GameController.canBoost()) {
+            	GameController.setPlayerState(GameController.PLAYER_BOOST);
+        	}
+            else {
+            	GameController.setPlayerState(GameController.PLAYER_NORMAL);
+            }
+    	}
+    	else {
+        	GameController.setPlayerState(GameController.PLAYER_NORMAL);    		
+    	}
 
 		// player collide check
 		if (player.isVisible()) {
@@ -124,8 +143,8 @@ public class Main extends Application implements Commons {
 						}
 						
 						Random random = new Random();
-						targetInit(playerX, playerY);
 						player.setType(random.nextInt(3));
+						targetInit(playerX, playerY);
 					}
 				}
 			}
@@ -165,10 +184,10 @@ public class Main extends Application implements Commons {
 		graphicsContext.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		if (GameController.isInGame()) {
-			graphicsContext.setFill(Color.GREEN);
-			graphicsContext.fillRect((WINDOW_WIDTH - GameController.getCurrentTime()) / 2, TIMER_Y, GameController.getCurrentTime(), TIMER_HEIGHT);
-			drawTargets(graphicsContext);
 			drawPlayer(graphicsContext);
+			drawTargets(graphicsContext);
+			drawTimeBar(graphicsContext);
+			drawBoostBar(graphicsContext);
 			drawScore(graphicsContext);
 		}
 		else {
@@ -185,6 +204,16 @@ public class Main extends Application implements Commons {
 		g.setFill(Color.WHITE);
 		g.setTextAlign(TextAlignment.CENTER);
 		g.fillText(scoreMessage, WINDOW_WIDTH / 2, 100 );
+	}
+	
+	private void drawTimeBar(GraphicsContext g) {
+		graphicsContext.setFill(Color.GREEN);
+		graphicsContext.fillRect((WINDOW_WIDTH - GameController.getCurrentTime()) / 2, TIMER_Y, GameController.getCurrentTime(), TIMER_HEIGHT);
+	}
+	
+	private void drawBoostBar(GraphicsContext g) {
+		graphicsContext.setFill(Color.DEEPSKYBLUE);
+		graphicsContext.fillRect(BOOSTBAR_X, BOOSTBAR_Y, BOOSTBAR_WIDTH, GameController.getPlayerBoostGauge());
 	}
 
 	private void gameOver(GraphicsContext g) {
