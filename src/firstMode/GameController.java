@@ -1,8 +1,8 @@
 package firstMode;
 
 public class GameController {
-	public static final int START_TIME = 1000;
-	public static final int MAX_TIME = 1280;
+	public static final int START_TIME = 800;
+	public static final int MAX_TIME = 1200;
 	public static final int TIME_INCREMENT = 50;
 	public static final int TIME_DECAY = 0;
 	
@@ -14,16 +14,25 @@ public class GameController {
 	public static final int PLAYER_BOOST = 1;
 	public static final int PLAYER_SLOW = 2;
 	
+	public static final int MAX_BOOST_GAUGE = 500;
+	public static final int BOOST_INCREMENT = 2;
+	public static final int BOOST_DECAY = 4;
+	
 	public static boolean inGame = true;
 	public static int currentTime;
 	public static int playerState;
 	public static int score;
+	public static int playerBoostGauge;
+	public static boolean boostTrying;
+	public static boolean boostBan;
 
 	public static void initController() {
 		setInGame(true);
 		setCurrentTime(START_TIME);
 		setPlayerState(PLAYER_NORMAL);
 		setScore(0);
+		setPlayerBoostGauge(MAX_BOOST_GAUGE);
+		setBoostBan(false);
 	}
 	
 	public static void decreaseTime() {
@@ -32,6 +41,48 @@ public class GameController {
 	
 	public static void increaseTime() {
 		setCurrentTime(Math.min(MAX_TIME, currentTime + TIME_INCREMENT));		
+	}
+	
+	public static void increasePlayerBoostGauge() {
+		setPlayerBoostGauge( Math.min(MAX_BOOST_GAUGE, getPlayerBoostGauge() + BOOST_INCREMENT));
+	}
+	
+	public static void decreasePlayerBoostGauge() {
+		setPlayerBoostGauge( Math.max(0, getPlayerBoostGauge() - BOOST_DECAY));
+	}
+	
+	public static boolean canBoost() {
+		return getPlayerBoostGauge() > 0 && !isBoostBan() ? true : false;
+	}
+	
+	public static boolean boostFull() {
+		return getPlayerBoostGauge() == MAX_BOOST_GAUGE ? true : false;
+	}
+	
+	public static boolean checkBoostBan() {
+		if(getPlayerBoostGauge() == 0) {
+			setBoostBan(true);
+		}
+		else if(getPlayerBoostGauge() == MAX_BOOST_GAUGE) {
+			setBoostBan(false);
+		}
+		return isBoostBan();
+	}
+	
+	public static void setBoostBan(boolean boostBan) {
+		GameController.boostBan = boostBan;
+	}
+	
+	public static boolean isBoostBan() {
+		return boostBan;
+	}
+
+	public static int getPlayerBoostGauge() {
+		return playerBoostGauge;
+	}
+
+	public static void setPlayerBoostGauge(int playerBoostGauge) {
+		GameController.playerBoostGauge = playerBoostGauge;
 	}
 	
 	public static void increaseScore() {
@@ -78,5 +129,13 @@ public class GameController {
 	}
 	public static void setCurrentTime(int currentTime) {
 		GameController.currentTime = currentTime;
+	}
+
+	public static boolean isBoostTrying() {
+		return boostTrying;
+	}
+
+	public static void setBoostTrying(boolean boostTrying) {
+		GameController.boostTrying = boostTrying;
 	}
 }

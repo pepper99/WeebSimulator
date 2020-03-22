@@ -7,10 +7,10 @@ public abstract class Sprite {
     private boolean visible;
     private WritableImage image;
 
-    int x;
-    int y;
-    int dx;
-    int dy;
+    protected int x;
+    protected int y;
+    protected int dx;
+    protected int dy;
 	protected int index;
 
     public Sprite() {
