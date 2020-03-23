@@ -143,26 +143,8 @@ public class Main extends Application implements Commons {
 						}
 						
 						Random random = new Random();
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-						targetInit(playerX, playerY);
-||||||| 9a98246
-						targetInit(playerX, playerY);
-=======
->>>>>>> c452a9c8d73ffc13729cc24897efeb4937caed18
-						player.setType(random.nextInt(3));
-<<<<<<< HEAD
-||||||| constructed merge base
-						player.setType(random.nextInt(3));
-						targetInit(playerX, playerY);
-=======
 						player.setType(random.nextInt(3));
 						targetInit(player.getTrueX(), player.getTrueY());
->>>>>>> Stashed changes
-||||||| 9a98246
-=======
-						targetInit(playerX, playerY);
->>>>>>> c452a9c8d73ffc13729cc24897efeb4937caed18
 					}
 				}
 			}
