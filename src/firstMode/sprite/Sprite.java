@@ -12,10 +12,12 @@ public abstract class Sprite {
     protected int dx;
     protected int dy;
 	protected int index;
+    protected WritableImage[][] imageArrays;
 
     public Sprite() {
         index = 0;
         visible = true;
+        initImageArrays();
     }
 
     public boolean isVisible() {
@@ -23,7 +25,7 @@ public abstract class Sprite {
         return visible;
     }
 
-    protected void setVisible(boolean visible) {
+    public void setVisible(boolean visible) {
 
         this.visible = visible;
     }
@@ -64,6 +66,8 @@ public abstract class Sprite {
 	public void updateIndex() {
 		index = (index + 1) % 2;
 	}
+	
+	protected abstract void initImageArrays();
 	
 	public abstract void updateImage();
 }

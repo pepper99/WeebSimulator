@@ -14,11 +14,12 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	public static final int TYPE_ALIEN = 0;
 	public static final int TYPE_ANIME_GIRL = 1;
 	public static final int TYPE_INF_GAUNTLET = 2;
+	
+	private static final int FRAMES = 1;
 
     private int type;
     private int playerSpeed;
     private boolean[] keyPressed;
-    WritableImage[] imageArrays;
 
 	public Player() {
 		super();
@@ -35,23 +36,19 @@ public class Player extends Sprite implements Commons, Type, Movable {
     }
 
     private void initPlayer() {
-    
-        int START_X = WINDOW_WIDTH / 2;
-        setX(START_X);
-
-        int START_Y = WINDOW_HEIGHT / 2;
-        setY(START_Y);
-
-        initImageArrays();
+        setX(WINDOW_WIDTH / 2);
+        setY(WINDOW_HEIGHT / 2);
+        
         setPlayerSpeed(GameController.getPlayerSpeed());
     }
     
-    private void initImageArrays() {
-    	imageArrays = new WritableImage[3];
-    	for(int i = 0; i < 3; i++) {
+    @Override
+	protected void initImageArrays() {
+    	imageArrays = new WritableImage[MAX_TYPE][1];
+    	for(int i = 0; i < MAX_TYPE; i++) {
     		String playerImg = ClassLoader.getSystemResource("images/player_" + i + ".png").toString();
     		Image ii = new Image(playerImg);
-    		imageArrays[i] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT);
+    		imageArrays[i][0] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT);
     	}
     }
     
@@ -73,7 +70,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
 
 	@Override
 	public void updateImage() {
-        setImage(imageArrays[getType()]);
+        setImage(imageArrays[getType()][0]);
 	}
 
     public void act() {
@@ -101,7 +98,6 @@ public class Player extends Sprite implements Commons, Type, Movable {
         }
 
         if (x >= WINDOW_WIDTH - PLAYER_WIDTH) {
-
             x = WINDOW_WIDTH - PLAYER_WIDTH;
         }
         

@@ -1,50 +1,66 @@
 package firstMode;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import firstMode.sprite.Target;
 import main.Commons;
 
 public class Randomizer implements Commons {
-	private static final int TARGET_RADIUS = 90;
+	private static final int LANDMINE_RADIUS = 60;
+	private static final int TARGET_RADIUS = 90;	
 	private static final int PLAYER_RADIUS = 100;
+	
+	public static final int LANDMINE_ITT = 4;
 	
 	private static Random random = new Random();
 	
-	public static ArrayList<Target> targetsRandomizer(int playerX, int playerY){
-		ArrayList<Target> targets = new ArrayList<>();
-		int[][] coordinates = new int[4][3];
+	public static int[][] coordinatesRandomizer(int playerX, int playerY){
 		
-		coordinates[3][0] = playerX;
-		coordinates[3][1] = playerY;
-		coordinates[3][2] = PLAYER_RADIUS;
+		int count = 1;
+		int max = 4;
+		if(GameController.isLandminePhase()) max++;
 		
-		int count = 0;
-		while(count < 3) {
-			int x = random.nextInt(WINDOW_WIDTH - TARGET_WIDTH) + TARGET_WIDTH/2;
-			int y = random.nextInt(WINDOW_HEIGHT - TARGET_HEIGHT) + TARGET_HEIGHT/2;
+		int[][] coordinates = new int[max][3];		
+		coordinates[0][0] = playerX;
+		coordinates[0][1] = playerY;
+		coordinates[0][2] = PLAYER_RADIUS;
+		
+		while(count < max) {
+			int width, height, radius;
+			
+			switch(count) {
+			case(LANDMINE_ITT):
+				width = LANDMINE_WIDTH;
+				height = LANDMINE_HEIGHT;
+				radius = LANDMINE_RADIUS;
+			default:
+				width = TARGET_WIDTH;
+				height = TARGET_HEIGHT;
+				radius = TARGET_RADIUS;
+			}
+			
+			int x = random.nextInt(WINDOW_WIDTH - width) + width/2;
+			int y = random.nextInt(WINDOW_HEIGHT - height) + height/2;
 			
 			boolean overlapped = false;
 			for(int[] coor : coordinates) {
-				if(distance(coor[0], x, coor[1], y) < coor[2] + TARGET_RADIUS) {			
+				if(distance(coor[0], x, coor[1], y) < coor[2] + radius) {			
 					overlapped = true;
 					break;
 				}
 			}
 			if(!overlapped) {
-				coordinates[count][0] = x - TARGET_WIDTH/2;
-				coordinates[count][1] = y - TARGET_HEIGHT/2;
-				coordinates[count][2] = TARGET_RADIUS;
+				coordinates[count][0] = x - width/2;
+				coordinates[count][1] = y - height/2;
+				coordinates[count][2] = radius;
 				count++;
 			}
 		}
-
-		for (int i = 0; i < 3; i++) {
-			Target target = new Target(coordinates[i][0], coordinates[i][1], i);
-			targets.add(target);
-		}
-		return targets;
+		
+		return coordinates;
+	}
+	
+	public static int getPlayerType() {
+		return random.nextInt(3);
 	}
 	
 	private static double distance(int x1, int x2, int y1, int y2) {	         

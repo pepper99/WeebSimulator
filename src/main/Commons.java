@@ -7,8 +7,7 @@ public interface Commons {
     int BORDER_RIGHT = 30;
     int BORDER_LEFT = 5;
     
-    int TARGET_WIDTH = 100;
-    int TARGET_HEIGHT = 150;
+    int MAX_TYPE = 3;
 
     int TIMER_HEIGHT = 10;
     int TIMER_Y = 40;
@@ -19,4 +18,10 @@ public interface Commons {
     
     int PLAYER_WIDTH = 100;
     int PLAYER_HEIGHT = 150;
+    
+    int TARGET_WIDTH = 100;
+    int TARGET_HEIGHT = 150;
+    
+    int LANDMINE_WIDTH = 80;
+    int LANDMINE_HEIGHT = 80;
 }

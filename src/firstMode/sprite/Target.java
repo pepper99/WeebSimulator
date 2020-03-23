@@ -11,6 +11,8 @@ public class Target extends Sprite implements Commons, Type {
 	public static final int TYPE_ANIME_GIRL = 1;
 	public static final int TYPE_INF_GAUNTLET = 2;
 	
+	private static final int FRAMES = 2;
+	
 	private int type;
 
     public Target(int x, int y, int type) {
@@ -31,13 +33,24 @@ public class Target extends Sprite implements Commons, Type {
 
 	public void setType(int type) {
 		this.type = type;
+		updateImage();
 	}
+    
+    @Override
+	protected void initImageArrays() {
+    	imageArrays = new WritableImage[MAX_TYPE][FRAMES];
+    	for(int i = 0; i < MAX_TYPE; i++) {
+    		String playerImg = ClassLoader.getSystemResource("images/target_" + i + ".png").toString();
+    		Image ii = new Image(playerImg);
+    		for(int j = 0; j < FRAMES; j++) {
+    			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+    		}
+    	}
+    }
 	
 	@Override
 	public void updateImage() {
-		String playerImg = ClassLoader.getSystemResource("images/target_" + type + ".png").toString();;
-		Image ii = new Image(playerImg);
-        setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * index, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
+        setImage(imageArrays[getType()][index]);
 	}
 
 	@Override
