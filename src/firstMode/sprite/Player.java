@@ -17,21 +17,47 @@ public class Player extends Sprite implements Commons, Type, Movable {
 
     private int type;
     private int playerSpeed;
+    private boolean[] keyPressed;
+    WritableImage[] imageArrays;
 
 	public Player() {
+		super();
         initPlayer();
+        keyPressed = initKeyArray();
+    	setType(0);
+    }
+
+	public Player(int type) {
+		super();
+        initPlayer();
+        keyPressed = initKeyArray();
+    	setType(type);
     }
 
     private void initPlayer() {
-    	setType(0);
     
         int START_X = WINDOW_WIDTH / 2;
         setX(START_X);
 
         int START_Y = WINDOW_HEIGHT / 2;
         setY(START_Y);
-        
+
+        initImageArrays();
         setPlayerSpeed(GameController.getPlayerSpeed());
+    }
+    
+    private void initImageArrays() {
+    	imageArrays = new WritableImage[3];
+    	for(int i = 0; i < 3; i++) {
+    		String playerImg = ClassLoader.getSystemResource("images/player_" + i + ".png").toString();
+    		Image ii = new Image(playerImg);
+    		imageArrays[i] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT);
+    	}
+    }
+    
+    private boolean[] initKeyArray() {
+    	boolean[] newArray = {false, false, false, false};
+    	return newArray;
     }
     
 	@Override
@@ -42,18 +68,35 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	@Override
 	public void setType(int type) {
 		this.type = type;
-		String playerImg = ClassLoader.getSystemResource("images/player_" + type + ".png").toString();;
-		Image ii = new Image(playerImg);
-        setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT));
+		updateImage();
+	}
+
+	@Override
+	public void updateImage() {
+        setImage(imageArrays[getType()]);
 	}
 
     public void act() {
+    	
+    	playerSpeed = GameController.getPlayerSpeed();
+    	dx = 0; dy = 0;
+    	if(keyPressed[0]) {
+    		dx -= playerSpeed;
+    	}
+    	if(keyPressed[1]) {
+    		dx += playerSpeed;
+    	}
+    	if(keyPressed[2]) {
+    		dy -= playerSpeed;
+    	}
+    	if(keyPressed[3]) {
+    		dy += playerSpeed;
+    	}
 
         x += dx;
         y += dy;
 
         if (x <= 0) {
-
             x = 0;
         }
 
@@ -73,77 +116,53 @@ public class Player extends Sprite implements Commons, Type, Movable {
     
 	@Override
     public void keyPressed(KeyEvent e) {
-    	
-    	playerSpeed = GameController.getPlayerSpeed();
         KeyCode key = e.getCode();
+        
+        if (key.equals(KeyCode.SHIFT)) {
+        	GameController.setBoostTrying(true);
+        }
 
         if (key.equals(KeyCode.LEFT)) {
-
-            dx -= playerSpeed;
+        	keyPressed[0] = true;
         }
 
         if (key.equals(KeyCode.RIGHT)) {
-
-            dx += playerSpeed;
+        	keyPressed[1] = true;
         }
 
         if (key.equals(KeyCode.UP)) {
-
-            dy -= playerSpeed;
+        	keyPressed[2] = true;
         }
 
         if (key.equals(KeyCode.DOWN)) {
-
-            dy += playerSpeed;
+        	keyPressed[3] = true;
         }
-        
-        speedCeiling();
     }
     
 	@Override
     public void keyReleased(KeyEvent e) {
+        KeyCode key = e.getCode();
+        
+        if (key.equals(KeyCode.SHIFT)) {
+        	GameController.setBoostTrying(false);
+        }
     	
     	playerSpeed = GameController.getPlayerSpeed();
-        KeyCode key = e.getCode();
 
         if (key.equals(KeyCode.LEFT)) {
-
-            dx += playerSpeed;
+        	keyPressed[0] = false;
         }
 
         if (key.equals(KeyCode.RIGHT)) {
-
-            dx -= playerSpeed;
+        	keyPressed[1] = false;
         }
 
         if (key.equals(KeyCode.UP)) {
-
-            dy += playerSpeed;
+        	keyPressed[2] = false;
         }
 
         if (key.equals(KeyCode.DOWN)) {
-
-            dy -= playerSpeed;
-        }
-        
-        speedCeiling();
-    }
-    
-    private void speedCeiling() {
-    	playerSpeed = GameController.getPlayerSpeed();
-    	
-        if(dx < 0) {
-        	dx = Math.max(dx, -playerSpeed);
-        }
-        else if(dx > 0) {
-        	dx = Math.min(dx, playerSpeed);
-        }
-        
-        if(dy < 0) {
-        	dy = Math.max(dy, -playerSpeed);
-        }
-        else if(dy > 0) {
-        	dy = Math.min(dy, playerSpeed);
+        	keyPressed[3] = false;
         }
     }
 

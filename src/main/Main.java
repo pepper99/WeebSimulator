@@ -2,6 +2,7 @@ package main;
 
 import firstMode.GameController;
 import firstMode.Randomizer;
+import firstMode.SpriteController;
 import firstMode.sprite.Player;
 import firstMode.sprite.Target;
 import javafx.animation.AnimationTimer;
@@ -19,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,15 +35,15 @@ public class Main extends Application implements Commons {
 	private GraphicsContext graphicsContext;
 	private MediaPlayer mediaPlayer;
 	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		GameController.initController();
+		SpriteController.initContorller();
 		musicInit();
 		
-		StackPane root = new StackPane();
-		
-		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-		
+		StackPane root = new StackPane();		
+		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		graphicsContext = canvas.getGraphicsContext2D();
 		
@@ -92,11 +94,34 @@ public class Main extends Application implements Commons {
 			GameController.setInGame(false);
 		}
 		else {
-			GameController.decreaseTime();			
+			GameController.decreaseTime();
+			GameController.checkBoostBan();
+			SpriteController.increaseTime();
+			
+			if(GameController.isBoostTrying() && GameController.canBoost()) {
+				GameController.decreasePlayerBoostGauge();
+			}
+			else if(!GameController.boostFull()) {
+				GameController.increasePlayerBoostGauge();
+			}
 		}
 
 		// player
 		player.act();
+		
+		// player boost check
+
+    	if(GameController.isBoostTrying()) {
+    		if(GameController.canBoost()) {
+            	GameController.setPlayerState(GameController.PLAYER_BOOST);
+        	}
+            else {
+            	GameController.setPlayerState(GameController.PLAYER_NORMAL);
+            }
+    	}
+    	else {
+        	GameController.setPlayerState(GameController.PLAYER_NORMAL);    		
+    	}
 
 		// player collide check
 		if (player.isVisible()) {
@@ -118,9 +143,15 @@ public class Main extends Application implements Commons {
 						}
 						
 						Random random = new Random();
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 						targetInit(playerX, playerY);
+||||||| 9a98246
+						targetInit(playerX, playerY);
+=======
+>>>>>>> c452a9c8d73ffc13729cc24897efeb4937caed18
 						player.setType(random.nextInt(3));
+<<<<<<< HEAD
 ||||||| constructed merge base
 						player.setType(random.nextInt(3));
 						targetInit(playerX, playerY);
@@ -128,6 +159,10 @@ public class Main extends Application implements Commons {
 						player.setType(random.nextInt(3));
 						targetInit(player.getTrueX(), player.getTrueY());
 >>>>>>> Stashed changes
+||||||| 9a98246
+=======
+						targetInit(playerX, playerY);
+>>>>>>> c452a9c8d73ffc13729cc24897efeb4937caed18
 					}
 				}
 			}
@@ -147,6 +182,7 @@ public class Main extends Application implements Commons {
 		for (Target target : targets) {
 
 			if (target.isVisible()) {
+				SpriteController.switchSprite(target);
 				g.drawImage(target.getImage(), target.getX(), target.getY());
 			}
 		}
@@ -155,6 +191,7 @@ public class Main extends Application implements Commons {
 	private void drawPlayer(GraphicsContext g) {
 
 		if (player.isVisible()) {
+			SpriteController.switchSprite(player);
 			g.drawImage(player.getImage(), player.getX(), player.getY());
 		}
 	}
@@ -165,10 +202,10 @@ public class Main extends Application implements Commons {
 		graphicsContext.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		if (GameController.isInGame()) {
-			graphicsContext.setFill(Color.GREEN);
-			graphicsContext.fillRect((WINDOW_WIDTH - GameController.getCurrentTime()) / 2, TIMER_Y, GameController.getCurrentTime(), TIMER_HEIGHT);
-			drawTargets(graphicsContext);
 			drawPlayer(graphicsContext);
+			drawTargets(graphicsContext);
+			drawTimeBar(graphicsContext);
+			drawBoostBar(graphicsContext);
 			drawScore(graphicsContext);
 		}
 		else {
@@ -185,6 +222,16 @@ public class Main extends Application implements Commons {
 		g.setFill(Color.WHITE);
 		g.setTextAlign(TextAlignment.CENTER);
 		g.fillText(scoreMessage, WINDOW_WIDTH / 2, 100 );
+	}
+	
+	private void drawTimeBar(GraphicsContext g) {
+		graphicsContext.setFill(Color.GREEN);
+		graphicsContext.fillRect((WINDOW_WIDTH - GameController.getCurrentTime()) / 2, TIMER_Y, GameController.getCurrentTime(), TIMER_HEIGHT);
+	}
+	
+	private void drawBoostBar(GraphicsContext g) {
+		graphicsContext.setFill(Color.DEEPSKYBLUE);
+		graphicsContext.fillRect(BOOSTBAR_X, BOOSTBAR_Y, BOOSTBAR_WIDTH, GameController.getPlayerBoostGauge());
 	}
 
 	private void gameOver(GraphicsContext g) {
@@ -204,6 +251,13 @@ public class Main extends Application implements Commons {
 	private void musicInit() {
 		Media h = new Media(ClassLoader.getSystemResource("musics/bgm.mp3").toString());
 		mediaPlayer = new MediaPlayer(h);
+		mediaPlayer.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
+	        	mediaPlayer.seek(Duration.ZERO);
+	        	mediaPlayer.play();
+	        }
+	    });
 		mediaPlayer.play();
 	}
 }
