@@ -51,7 +51,7 @@ public class Main extends Application implements Commons {
 		root.getChildren().add(canvas);
 
 		player = new Player();
-		targetInit(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+		targetInit(player.getTrueX(), player.getTrueY());
 		
 		scene.setOnKeyPressed(
 				new EventHandler<KeyEvent>()
@@ -118,8 +118,16 @@ public class Main extends Application implements Commons {
 						}
 						
 						Random random = new Random();
+<<<<<<< Updated upstream
 						targetInit(playerX, playerY);
 						player.setType(random.nextInt(3));
+||||||| constructed merge base
+						player.setType(random.nextInt(3));
+						targetInit(playerX, playerY);
+=======
+						player.setType(random.nextInt(3));
+						targetInit(player.getTrueX(), player.getTrueY());
+>>>>>>> Stashed changes
 					}
 				}
 			}

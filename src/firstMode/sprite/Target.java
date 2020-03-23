@@ -33,4 +33,14 @@ public class Target extends Sprite implements Commons, Type {
 		Image ii = new Image(playerImg);
         setImage(new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT));
 	}
+
+	@Override
+	public int getTrueX() {
+		return getX() + TARGET_WIDTH/2;
+	}
+
+	@Override
+	public int getTrueY() {
+		return getY() + TARGET_HEIGHT/2;
+	}
 }

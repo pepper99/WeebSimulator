@@ -56,4 +56,23 @@ public class Sprite {
 
         return x;
     }
+<<<<<<< Updated upstream
+||||||| constructed merge base
+	
+	public void updateIndex() {
+		index = (index + 1) % 2;
+	}
+	
+	public abstract void updateImage();
+=======
+    
+    public abstract int getTrueX();
+    public abstract int getTrueY();
+	
+	public void updateIndex() {
+		index = (index + 1) % 2;
+	}
+	
+	public abstract void updateImage();
+>>>>>>> Stashed changes
 }

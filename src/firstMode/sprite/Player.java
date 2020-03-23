@@ -154,4 +154,14 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	public void setPlayerSpeed(int playerSpeed) {
 		this.playerSpeed = playerSpeed;
 	}
+
+	@Override
+	public int getTrueX() {
+		return getX() + PLAYER_WIDTH/2;
+	}
+
+	@Override
+	public int getTrueY() {
+		return getY() + PLAYER_HEIGHT/2;
+	}
 }
