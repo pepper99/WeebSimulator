@@ -57,16 +57,6 @@ public abstract class Sprite {
 
         return x;
     }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-||||||| constructed merge base
-	
-	public void updateIndex() {
-		index = (index + 1) % 2;
-	}
-	
-	public abstract void updateImage();
-=======
     
     public abstract int getTrueX();
     public abstract int getTrueY();
@@ -76,14 +66,4 @@ public abstract class Sprite {
 	}
 	
 	public abstract void updateImage();
->>>>>>> Stashed changes
-||||||| 9a98246
-=======
-	
-	public void updateIndex() {
-		index = (index + 1) % 2;
-	}
-	
-	public abstract void updateImage();
->>>>>>> c452a9c8d73ffc13729cc24897efeb4937caed18
 }
