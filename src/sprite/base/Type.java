@@ -1,4 +1,4 @@
-package firstMode.base;
+package sprite.base;
 
 public interface Type {
 	public int getType();

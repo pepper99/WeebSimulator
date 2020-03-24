@@ -1,13 +1,5 @@
 package main;
 
-import firstMode.AudioUtil;
-import firstMode.GameController;
-import firstMode.GraphicsUtil;
-import firstMode.Randomizer;
-import firstMode.SpriteController;
-import firstMode.sprite.Landmine;
-import firstMode.sprite.Player;
-import firstMode.sprite.Target;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -17,8 +9,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import sprite.Landmine;
+import sprite.Player;
+import sprite.Target;
 
 import java.util.ArrayList;
+
+import control.AudioUtil;
+import control.GameController;
+import control.GraphicsUtil;
+import control.Randomizer;
+import control.SpriteController;
 
 public class Main extends Application implements Commons {
 

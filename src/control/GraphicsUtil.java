@@ -1,10 +1,7 @@
-package firstMode;
+package control;
 
 import java.util.ArrayList;
 
-import firstMode.sprite.Landmine;
-import firstMode.sprite.Player;
-import firstMode.sprite.Target;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
@@ -17,6 +14,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import main.Commons;
+import sprite.Landmine;
+import sprite.Player;
+import sprite.Target;
 
 public class GraphicsUtil implements Commons {
 	

@@ -1,4 +1,4 @@
-package firstMode;
+package control;
 
 import java.util.Random;
 

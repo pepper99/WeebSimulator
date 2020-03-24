@@ -1,6 +1,6 @@
-package firstMode;
+package control;
 
-import firstMode.sprite.Sprite;
+import sprite.Sprite;
 
 public class SpriteController {
 	public static final int MAX_TIME = 100;

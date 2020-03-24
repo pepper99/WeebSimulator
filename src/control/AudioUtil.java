@@ -1,4 +1,4 @@
-package firstMode;
+package control;
 
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;

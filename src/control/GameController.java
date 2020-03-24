@@ -1,10 +1,10 @@
-package firstMode;
+package control;
 
-import firstMode.sprite.Landmine;
-import firstMode.sprite.Player;
-import firstMode.sprite.Sprite;
-import firstMode.sprite.Target;
 import main.Commons;
+import sprite.Landmine;
+import sprite.Player;
+import sprite.Sprite;
+import sprite.Target;
 
 public class GameController implements Commons {
 	public static final int START_TIME = 800;

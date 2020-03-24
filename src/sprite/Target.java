@@ -1,9 +1,9 @@
-package firstMode.sprite;
+package sprite;
 
-import firstMode.base.Type;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import main.Commons;
+import sprite.base.Type;
 
 public class Target extends Sprite implements Commons, Type {
 	

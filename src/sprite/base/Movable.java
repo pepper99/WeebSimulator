@@ -1,4 +1,4 @@
-package firstMode.base;
+package sprite.base;
 
 import javafx.scene.input.KeyEvent;
 

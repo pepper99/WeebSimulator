@@ -1,13 +1,13 @@
-package firstMode.sprite;
+package sprite;
 
-import firstMode.GameController;
-import firstMode.base.Movable;
-import firstMode.base.Type;
+import control.GameController;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import main.Commons;
+import sprite.base.Movable;
+import sprite.base.Type;
 
 public class Player extends Sprite implements Commons, Type, Movable {
 	
