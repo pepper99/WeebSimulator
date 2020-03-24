@@ -43,7 +43,7 @@ public class Target extends Sprite implements Commons, Type {
     		String playerImg = ClassLoader.getSystemResource("images/target_" + i + ".png").toString();
     		Image ii = new Image(playerImg);
     		for(int j = 0; j < FRAMES; j++) {
-    			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+    			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), TARGET_WIDTH * j, 0, TARGET_WIDTH, PLAYER_HEIGHT);
     		}
     	}
     }

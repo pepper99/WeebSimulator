@@ -1,6 +1,7 @@
 package main;
 
 import firstMode.GameController;
+import firstMode.GraphicsUtil;
 import firstMode.Randomizer;
 import firstMode.SpriteController;
 import firstMode.sprite.Landmine;
@@ -12,18 +13,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -35,8 +28,6 @@ public class Main extends Application implements Commons {
 	private Player player;
 	private Landmine landmine;
 	
-	private String message = "Game Over";
-	
 	private GraphicsContext graphicsContext;
 	private MediaPlayer mediaPlayer;
 	
@@ -44,15 +35,13 @@ public class Main extends Application implements Commons {
 	public void start(Stage primaryStage) throws Exception {
 		GameController.initController();
 		SpriteController.initContorller();
+		GraphicsUtil.init();
 		musicInit();
 		
 		StackPane root = new StackPane();		
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		graphicsContext = canvas.getGraphicsContext2D();
-		
-		graphicsContext.setFill(Color.rgb(21,24,31));
-		graphicsContext.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
 		root.getChildren().add(canvas);
 
@@ -80,7 +69,7 @@ public class Main extends Application implements Commons {
 		    public void handle(long currentNanoTime)
 		    {
 				update();
-				doDrawing(graphicsContext);
+				GraphicsUtil.doDrawing(graphicsContext, targets, player, landmine);
 		    }
 		}.start();
 		
@@ -96,6 +85,7 @@ public class Main extends Application implements Commons {
 		// timer
 		if (GameController.getCurrentTime() == 0) {
 			GameController.setInGame(false);
+			mediaPlayer.stop();
 		}
 		else {
 			GameController.decreaseTime();
@@ -155,100 +145,6 @@ public class Main extends Application implements Commons {
 		if(GameController.isLandminePhase()) {
 			landmine = new Landmine(coordinates[4][0], coordinates[4][1]);
 		}
-	}
-
-	private void doDrawing(GraphicsContext g) {
-		
-		if(GameController.boost()) {
-			g.setEffect(new InnerShadow(100, Color.WHITE));
-        }
-		g.setFill(Color.rgb(21,24,31));
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		if (GameController.isInGame()) {
-			g.setEffect(new DropShadow(20, 0, 30, Color.BLACK));
-			if(GameController.isLandminePhase()) drawLandmine(graphicsContext);
-			drawPlayer(graphicsContext);
-			drawTargets(graphicsContext);
-			g.setEffect(null);
-			drawTimeBar(graphicsContext);
-			drawBoostBar(graphicsContext);
-			drawScore(graphicsContext);
-		}
-		else {
-			mediaPlayer.stop();
-			gameOver(graphicsContext);
-		}
-	}
-
-	private void drawTargets(GraphicsContext g) {
-		for (Target target : targets) {
-			if (target.isVisible()) {
-				SpriteController.switchSprite(target);
-				g.drawImage(target.getImage(), target.getX(), target.getY());
-			}
-		}
-	}
-
-	private void drawPlayer(GraphicsContext g) {
-		if (player.isVisible()) {
-			DropShadow e = (DropShadow) g.getEffect(null);
-			SpriteController.switchSprite(player);
-			if(GameController.isSlowed() && SpriteController.flash()) {
-	        	g.setGlobalAlpha(0.5);
-	        }
-			else if(GameController.boost()) {
-				DropShadow c1 = (DropShadow) g.getEffect(null);
-				Bloom c2 = new Bloom(0);
-				c2.setInput(new Glow(1));
-				c1.setInput(c2);
-				g.setEffect(c1);
-	        }
-			g.drawImage(player.getImage(), player.getX(), player.getY());
-			g.setEffect(e);
-	        g.setGlobalAlpha(1);
-		}
-	}
-
-	private void drawLandmine(GraphicsContext g) {
-		if (landmine.isVisible()) {
-			SpriteController.switchSprite(landmine);
-			g.drawImage(landmine.getImage(), landmine.getX(), landmine.getY());
-		}
-	}
-	
-	private void drawScore(GraphicsContext g) {
-		String scoreMessage = Integer.toString(GameController.getScore());
-		Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
-	    g.setFont( theFont );
-	    g.setLineWidth(1);
-		g.setFill(Color.WHITE);
-		g.setTextAlign(TextAlignment.CENTER);
-		g.fillText(scoreMessage, WINDOW_WIDTH / 2, 100 );
-	}
-	
-	private void drawTimeBar(GraphicsContext g) {
-		graphicsContext.setFill(Color.GREEN);
-		graphicsContext.fillRect((WINDOW_WIDTH - GameController.getCurrentTime()) / 2, TIMER_Y, GameController.getCurrentTime(), TIMER_HEIGHT);
-	}
-	
-	private void drawBoostBar(GraphicsContext g) {
-		graphicsContext.setFill(Color.DEEPSKYBLUE);
-		graphicsContext.fillRect(BOOSTBAR_X, BOOSTBAR_Y, BOOSTBAR_WIDTH, GameController.getPlayerBoostGauge());
-	}
-
-	private void gameOver(GraphicsContext g) {
-		g.setFill(Color.BLACK);
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		
-		Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 64 );
-	    g.setFont( theFont );
-	    g.setStroke( Color.WHITE );
-	    g.setLineWidth(1);		
-		g.setFill( Color.RED );
-		g.setTextAlign(TextAlignment.CENTER);
-        g.fillText( message, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        g.strokeText( message, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
 	}
 	
 	private void musicInit() {

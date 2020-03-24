@@ -48,7 +48,9 @@ public class Player extends Sprite implements Commons, Type, Movable {
     	for(int i = 0; i < MAX_TYPE; i++) {
     		String playerImg = ClassLoader.getSystemResource("images/player_" + i + ".png").toString();
     		Image ii = new Image(playerImg);
-    		imageArrays[i][0] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH, PLAYER_HEIGHT);
+    		for(int j = 0; j < FRAMES; j++) {
+    			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+    		}
     	}
     }
     
@@ -93,20 +95,20 @@ public class Player extends Sprite implements Commons, Type, Movable {
         x += dx;
         y += dy;
 
-        if (x <= 0) {
-            x = 0;
+        if (x <= BORDER_LEFT) {
+            x = BORDER_LEFT;
         }
 
-        if (x >= WINDOW_WIDTH - PLAYER_WIDTH) {
-            x = WINDOW_WIDTH - PLAYER_WIDTH;
+        if (x >= WINDOW_WIDTH - PLAYER_WIDTH - BORDER_RIGHT) {
+            x = WINDOW_WIDTH - PLAYER_WIDTH - BORDER_RIGHT;
         }
         
-        if (y <= 0) {
-        	y = 0;
+        if (y <= BORDER_TOP) {
+        	y = BORDER_TOP;
         }
         
-        if (y >= WINDOW_HEIGHT - PLAYER_HEIGHT) {
-        	y = WINDOW_HEIGHT - PLAYER_HEIGHT;
+        if (y >= WINDOW_HEIGHT - PLAYER_HEIGHT - BORDER_BOTTOM) {
+        	y = WINDOW_HEIGHT - PLAYER_HEIGHT - BORDER_BOTTOM;
         }
     }
     

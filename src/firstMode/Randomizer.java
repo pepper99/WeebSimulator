@@ -38,8 +38,8 @@ public class Randomizer implements Commons {
 				radius = TARGET_RADIUS;
 			}
 			
-			int x = random.nextInt(WINDOW_WIDTH - width) + width/2;
-			int y = random.nextInt(WINDOW_HEIGHT - height) + height/2;
+			int x = random.nextInt(WINDOW_WIDTH - width - BORDER_RIGHT - BORDER_LEFT) + width/2 + BORDER_LEFT;
+			int y = random.nextInt(WINDOW_HEIGHT - height - BORDER_BOTTOM - BORDER_TOP) + height/2 + BORDER_TOP;
 			
 			boolean overlapped = false;
 			for(int[] coor : coordinates) {
