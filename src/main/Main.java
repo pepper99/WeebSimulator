@@ -1,5 +1,6 @@
 package main;
 
+import firstMode.AudioUtil;
 import firstMode.GameController;
 import firstMode.GraphicsUtil;
 import firstMode.Randomizer;
@@ -15,10 +16,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -29,14 +27,13 @@ public class Main extends Application implements Commons {
 	private Landmine landmine;
 	
 	private GraphicsContext graphicsContext;
-	private MediaPlayer mediaPlayer;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		GameController.initController();
 		SpriteController.initContorller();
 		GraphicsUtil.init();
-		musicInit();
+		AudioUtil.init();
 		
 		StackPane root = new StackPane();		
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
@@ -76,8 +73,6 @@ public class Main extends Application implements Commons {
 		primaryStage.setTitle("Weeb Simulator 2020");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		mediaPlayer.play();
 	}
 
 	private void update() {
@@ -85,7 +80,7 @@ public class Main extends Application implements Commons {
 		// timer
 		if (GameController.getCurrentTime() == 0) {
 			GameController.setInGame(false);
-			mediaPlayer.stop();
+			AudioUtil.musicStop();
 		}
 		else {
 			GameController.decreaseTime();
@@ -118,6 +113,10 @@ public class Main extends Application implements Commons {
 					if(player.getType() == target.getType()) {
 						GameController.increaseTime();
 						GameController.increaseScore();
+						AudioUtil.playSFX(AudioUtil.SFX_WOW);
+					}
+					else {
+						AudioUtil.playSFX(AudioUtil.SFX_BRUH);
 					}
 					player.setType(Randomizer.getPlayerType());
 					targetInit(player.getTrueX(), player.getTrueY());
@@ -126,6 +125,7 @@ public class Main extends Application implements Commons {
 			if(GameController.isLandminePhase()) {
 				if(landmine.isVisible() && GameController.playerCollideCheck(player, landmine)) {
 					GameController.triggerSlow();
+					AudioUtil.playSFX(AudioUtil.SFX_KHALED);
 					landmine.setVisible(false);
 				}
 			}
@@ -145,18 +145,5 @@ public class Main extends Application implements Commons {
 		if(GameController.isLandminePhase()) {
 			landmine = new Landmine(coordinates[4][0], coordinates[4][1]);
 		}
-	}
-	
-	private void musicInit() {
-		Media h = new Media(ClassLoader.getSystemResource("musics/bgm.mp3").toString());
-		mediaPlayer = new MediaPlayer(h);
-		mediaPlayer.setOnEndOfMedia(new Runnable() {
-	        @Override
-	        public void run() {
-	        	mediaPlayer.seek(Duration.ZERO);
-	        	mediaPlayer.play();
-	        }
-	    });
-		mediaPlayer.play();
 	}
 }
