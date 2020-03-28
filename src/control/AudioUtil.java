@@ -50,4 +50,15 @@ public class AudioUtil {
 	public static void playSFX(int type) {
 		sfx[type].play();
 	}
+	
+	public static void stopSFX() {
+		for(AudioClip a : sfx) {
+			a.stop();
+		}
+	}
+	
+	public static void stopAudio() {
+		musicStop();
+		stopSFX();
+	}
 }

@@ -2,7 +2,7 @@ package control;
 
 import java.util.Random;
 
-import main.Commons;
+import base.Commons;
 
 public class Randomizer implements Commons {
 	private static final int LANDMINE_RADIUS = 60;
@@ -13,11 +13,10 @@ public class Randomizer implements Commons {
 	
 	private static Random random = new Random();
 	
-	public static int[][] coordinatesRandomizer(int playerX, int playerY){
+	public static int[][] coordinatesRandomizer(int playerX, int playerY, int landmineCount){
 		
 		int count = 1;
-		int max = 4;
-		if(GameController.isLandminePhase()) max++;
+		int max = 4 + landmineCount;
 		
 		int[][] coordinates = new int[max][3];		
 		coordinates[0][0] = playerX;
@@ -27,12 +26,12 @@ public class Randomizer implements Commons {
 		while(count < max) {
 			int width, height, radius;
 			
-			switch(count) {
-			case(LANDMINE_ITT):
+			if(count >= LANDMINE_ITT) {
 				width = LANDMINE_WIDTH;
 				height = LANDMINE_HEIGHT;
 				radius = LANDMINE_RADIUS;
-			default:
+			}
+			else {
 				width = TARGET_WIDTH;
 				height = TARGET_HEIGHT;
 				radius = TARGET_RADIUS;

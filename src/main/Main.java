@@ -15,7 +15,9 @@ import sprite.Target;
 
 import java.util.ArrayList;
 
+import base.Commons;
 import control.AudioUtil;
+import control.FloatingTextController;
 import control.GameController;
 import control.GraphicsUtil;
 import control.Randomizer;
@@ -24,8 +26,9 @@ import control.SpriteController;
 public class Main extends Application implements Commons {
 
 	private ArrayList<Target> targets;
+	private ArrayList<Landmine> landmines;
 	private Player player;
-	private Landmine landmine;
+	private FloatingTextController floatingTextController;
 	
 	private GraphicsContext graphicsContext;
 	
@@ -35,6 +38,7 @@ public class Main extends Application implements Commons {
 		SpriteController.initContorller();
 		GraphicsUtil.init();
 		AudioUtil.init();
+		floatingTextController = new FloatingTextController();
 		
 		StackPane root = new StackPane();		
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
@@ -67,7 +71,7 @@ public class Main extends Application implements Commons {
 		    public void handle(long currentNanoTime)
 		    {
 				update();
-				GraphicsUtil.doDrawing(graphicsContext, targets, player, landmine);
+				GraphicsUtil.doDrawing(graphicsContext, targets, player, landmines, floatingTextController);
 		    }
 		}.start();
 		
@@ -81,12 +85,16 @@ public class Main extends Application implements Commons {
 		// timer
 		if (GameController.getCurrentTime() == 0) {
 			GameController.setInGame(false);
-			AudioUtil.musicStop();
+			AudioUtil.stopAudio();
 		}
 		else {
 			GameController.decreaseTime();
 			GameController.checkBoostBan();
 			SpriteController.increaseTime();
+			
+			if(!floatingTextController.isEmpty()) {
+				floatingTextController.updateTimer();
+			}
 			
 			if(GameController.isBoostTrying() && GameController.canBoost()) {
 				GameController.decreasePlayerBoostGauge();
@@ -115,19 +123,24 @@ public class Main extends Application implements Commons {
 						GameController.increaseTime();
 						GameController.increaseScore();
 						AudioUtil.playSFX(AudioUtil.SFX_WOW);
+						floatingTextController.addText("WOW", player.getX(), player.getY());
 					}
 					else {
 						AudioUtil.playSFX(AudioUtil.SFX_BRUH);
+						floatingTextController.addText("BRUH", player.getX(), player.getY());
 					}
 					player.setType(Randomizer.getPlayerType());
 					targetInit(player.getTrueX(), player.getTrueY());
 				}
 			}
-			if(GameController.isLandminePhase()) {
-				if(landmine.isVisible() && GameController.playerCollideCheck(player, landmine)) {
-					GameController.triggerSlow();
-					AudioUtil.playSFX(AudioUtil.SFX_KHALED);
-					landmine.setVisible(false);
+			if(GameController.hasLandmine()) {
+				for (Landmine landmine : landmines) {
+					if(landmine.isVisible() && GameController.playerCollideCheck(player, landmine)) {
+						GameController.triggerSlow();
+						AudioUtil.playSFX(AudioUtil.SFX_KHALED);
+						floatingTextController.addText("LMAO REKT", player.getX(), player.getY());
+						landmine.setVisible(false);
+					}
 				}
 			}
 		}
@@ -138,13 +151,16 @@ public class Main extends Application implements Commons {
 	}
 
 	private void targetInit(int playerX, int playerY) {
-		targets = new ArrayList<>();
-		int[][] coordinates = Randomizer.coordinatesRandomizer(playerX, playerY);
+		targets = new ArrayList<Target>();
+		int[][] coordinates = Randomizer.coordinatesRandomizer(playerX, playerY, GameController.getLandmineCount());
 		for(int i = 0; i < 3; i++) {
 			targets.add(new Target(coordinates[i+1][0], coordinates[i+1][1], i));
 		}
-		if(GameController.isLandminePhase()) {
-			landmine = new Landmine(coordinates[4][0], coordinates[4][1]);
+		if(GameController.hasLandmine()) {
+			landmines = new ArrayList<Landmine>();
+			for(int i = 0; i < GameController.getLandmineCount(); i++) {
+				landmines.add(new Landmine(coordinates[i+4][0], coordinates[i+4][1]));
+			}
 		}
 	}
 }

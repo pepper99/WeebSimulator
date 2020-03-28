@@ -1,4 +1,4 @@
-package main;
+package base;
 
 public interface Commons {
 
@@ -15,8 +15,8 @@ public interface Commons {
     int TIMER_Y = 40;
     
     int BOOSTBAR_X = 1200;
-    int BOOSTBAR_Y = 120;
-    int BOOSTBAR_WIDTH = 20;
+    int BOOSTBAR_Y = 54;
+    int BOOSTBAR_HEIGHT = 4;
     
     int PLAYER_WIDTH = 100;
     int PLAYER_HEIGHT = 150;

@@ -1,8 +1,10 @@
-package sprite;
+package sprite.base;
 
+import base.Coordinate;
+import base.Visible;
 import javafx.scene.image.WritableImage;
 
-public abstract class Sprite {
+public abstract class Sprite implements Visible, Coordinate {
 
     private boolean visible;
     private WritableImage image;
@@ -20,13 +22,13 @@ public abstract class Sprite {
         initImageArrays();
     }
 
+    @Override
     public boolean isVisible() {
-
         return visible;
     }
 
+    @Override
     public void setVisible(boolean visible) {
-
         this.visible = visible;
     }
 
@@ -40,23 +42,23 @@ public abstract class Sprite {
         return image;
     }
 
+    @Override
     public void setX(int x) {
-
         this.x = x;
     }
 
+    @Override
     public void setY(int y) {
-
         this.y = y;
     }
-
+    
+    @Override
     public int getY() {
-
         return y;
     }
 
+    @Override
     public int getX() {
-
         return x;
     }
     

@@ -2,6 +2,8 @@ package control;
 
 import java.util.ArrayList;
 
+import base.Commons;
+import control.FloatingTextController.FloatingText;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
@@ -13,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
-import main.Commons;
 import sprite.Landmine;
 import sprite.Player;
 import sprite.Target;
@@ -27,24 +28,26 @@ public class GraphicsUtil implements Commons {
 		bg = new WritableImage(ii.getPixelReader(), WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
-	public static void doDrawing(GraphicsContext g, ArrayList<Target> targets, Player player, Landmine landmine) {
-		
+	public static void doDrawing(GraphicsContext g, ArrayList<Target> targets, Player player,  ArrayList<Landmine> landmines,
+			FloatingTextController floatingTextController) {
 		if(GameController.boost()) {
 			g.setEffect(new InnerShadow(100, Color.WHITE));
         }
 		GraphicsUtil.drawBG(g);
 
 		if (GameController.isInGame()) {
-			g.setEffect(new DropShadow(20, 0, 30, Color.BLACK));
-			if(GameController.isLandminePhase()) GraphicsUtil.drawLandmine(g, landmine);
+			g.setEffect(new DropShadow(20, 0, 14, Color.rgb(18, 18, 18)));
+			if(GameController.hasLandmine()) GraphicsUtil.drawLandmine(g, landmines);
 			GraphicsUtil.drawPlayer(g, player);
 			GraphicsUtil.drawTargets(g, targets);
 			g.setEffect(null);
+			if(!floatingTextController.isEmpty()) drawFloatingText(g, floatingTextController);
 			GraphicsUtil.drawTimeBar(g);
 			GraphicsUtil.drawBoostBar(g);
 			GraphicsUtil.drawScore(g);
 		}
 		else {
+			g.setEffect(null);
 			gameOver(g);
 		}
 	}
@@ -70,9 +73,12 @@ public class GraphicsUtil implements Commons {
 	        	g.setGlobalAlpha(0.5);
 	        }
 			else if(GameController.boost()) {
+				double boostGauge = (double) GameController.getPlayerBoostGauge();
+				double maxBoost = (double) GameController.MAX_BOOST_GAUGE;
+				double val = boostGauge/maxBoost + 0.5;
 				DropShadow c1 = (DropShadow) g.getEffect(null);
-				Bloom c2 = new Bloom(0);
-				c2.setInput(new Glow(1));
+				Bloom c2 = new Bloom(1 - val);
+				c2.setInput(new Glow(val));
 				c1.setInput(c2);
 				g.setEffect(c1);
 	        }
@@ -82,17 +88,18 @@ public class GraphicsUtil implements Commons {
 		}
 	}
 
-	public static void drawLandmine(GraphicsContext g, Landmine landmine) {
-		if (landmine.isVisible()) {
-			SpriteController.switchSprite(landmine);
-			g.drawImage(landmine.getImage(), landmine.getX(), landmine.getY());
+	public static void drawLandmine(GraphicsContext g, ArrayList<Landmine> landmines) {
+		for (Landmine landmine : landmines) {
+			if (landmine.isVisible()) {
+				SpriteController.switchSprite(landmine);
+				g.drawImage(landmine.getImage(), landmine.getX(), landmine.getY());
+			}
 		}
 	}
 	
 	public static void drawScore(GraphicsContext g) {
 		String scoreMessage = Integer.toString(GameController.getScore());
-		Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
-	    g.setFont( theFont );
+	    g.setFont(Font.font( "Helvetica", FontWeight.BOLD, 24));
 	    g.setLineWidth(1);
 		g.setFill(Color.WHITE);
 		g.setTextAlign(TextAlignment.CENTER);
@@ -100,26 +107,52 @@ public class GraphicsUtil implements Commons {
 	}
 	
 	public static void drawTimeBar(GraphicsContext g) {
-		g.setFill(Color.GREEN);
-		g.fillRect((WINDOW_WIDTH - GameController.getCurrentTime()) / 2, TIMER_Y, GameController.getCurrentTime(), TIMER_HEIGHT);
+		double time = GameController.getCurrentTime();
+		double timeFraction = 1 - time / GameController.MAX_TIME;
+		int dRed = (int) (timeFraction * 206);
+		int dGreen = (int) (timeFraction * 201);
+		g.setFill(Color.rgb(24 + dRed, 219 - dGreen, 18));
+		g.fillRect((WINDOW_WIDTH - time) / 2, TIMER_Y, time, TIMER_HEIGHT);
 	}
 	
 	public static void drawBoostBar(GraphicsContext g) {
-		g.setFill(Color.DEEPSKYBLUE);
-		g.fillRect(BOOSTBAR_X, BOOSTBAR_Y, BOOSTBAR_WIDTH, GameController.getPlayerBoostGauge());
+		if(GameController.isBoostBan()) {
+			if(SpriteController.flash()) {
+				g.setFill(Color.WHITE);
+			}
+			else {
+				g.setFill(Color.RED);
+			}
+        }
+		else {
+			g.setFill(Color.DEEPSKYBLUE);
+		}
+		g.fillRect((WINDOW_WIDTH - GameController.getPlayerBoostGauge()) / 2, BOOSTBAR_Y, GameController.getPlayerBoostGauge(), BOOSTBAR_HEIGHT);
+	}
+	
+	public static void drawFloatingText(GraphicsContext g, FloatingTextController floatingTextController) {
+		for(FloatingText f : floatingTextController.getFloatingTexts()) {
+			if (f.isVisible()) {
+			    g.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
+			    g.setFill(f.getColor());
+	        	g.setGlobalAlpha(f.getTimer() / FloatingText.START_TIME);
+		        g.fillText(f.getMessage(), f.getX(), f.getY());
+	        	g.setGlobalAlpha(1);
+			}
+		}
 	}
 
 	private static void gameOver(GraphicsContext g) {
 		g.setFill(Color.BLACK);
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 64 );
-	    g.setFont( theFont );
-	    g.setStroke( Color.WHITE );
+		Font font = Font.font( "Helvetica", FontWeight.BOLD, 64 );
+	    g.setFont(font);
+	    g.setStroke(Color.WHITE);
 	    g.setLineWidth(1);		
-		g.setFill( Color.RED );
+		g.setFill(Color.RED);
 		g.setTextAlign(TextAlignment.CENTER);
-        g.fillText( "Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        g.strokeText( "Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
+        g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
+        g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
 	}
 }

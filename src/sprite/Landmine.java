@@ -1,8 +1,9 @@
 package sprite;
 
+import base.Commons;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import main.Commons;
+import sprite.base.Sprite;
 
 public class Landmine extends Sprite implements Commons {
 	

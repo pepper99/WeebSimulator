@@ -1,12 +1,13 @@
 package sprite;
 
+import base.Commons;
 import control.GameController;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import main.Commons;
 import sprite.base.Movable;
+import sprite.base.Sprite;
 import sprite.base.Type;
 
 public class Player extends Sprite implements Commons, Type, Movable {
@@ -15,7 +16,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	public static final int TYPE_ANIME_GIRL = 1;
 	public static final int TYPE_INF_GAUNTLET = 2;
 	
-	private static final int FRAMES = 1;
+	private static final int FRAMES = 2;
 
     private int type;
     private int playerSpeed;
@@ -44,10 +45,9 @@ public class Player extends Sprite implements Commons, Type, Movable {
     
     @Override
 	protected void initImageArrays() {
-    	imageArrays = new WritableImage[MAX_TYPE][1];
+    	imageArrays = new WritableImage[MAX_TYPE][FRAMES];
     	for(int i = 0; i < MAX_TYPE; i++) {
-    		String playerImg = ClassLoader.getSystemResource("images/player_" + i + ".png").toString();
-    		Image ii = new Image(playerImg);
+    		Image ii = new Image(ClassLoader.getSystemResource("images/player_" + i + ".png").toString());
     		for(int j = 0; j < FRAMES; j++) {
     			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
     		}
@@ -72,11 +72,10 @@ public class Player extends Sprite implements Commons, Type, Movable {
 
 	@Override
 	public void updateImage() {
-        setImage(imageArrays[getType()][0]);
+        setImage(imageArrays[getType()][index]);
 	}
 
     public void act() {
-    	
     	playerSpeed = GameController.getPlayerSpeed();
     	dx = 0; dy = 0;
     	if(keyPressed[0]) {

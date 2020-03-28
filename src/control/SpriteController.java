@@ -1,6 +1,6 @@
 package control;
 
-import sprite.Sprite;
+import sprite.base.Sprite;
 
 public class SpriteController {
 	public static final int MAX_TIME = 100;
