@@ -9,8 +9,11 @@ import sprite.base.Sprite;
 public class GameController implements Commons {
 	public static final double START_TIME = 800;
 	public static final double MAX_TIME = 1200;
-	public static final double TIME_INCREMENT = 200;
-	public static final double INITIAL_TIME_DECAY = 3;
+//	public static final double TIME_INCREMENT = 200;
+	public static final double INITIAL_TIME_DECAY = 2.5;
+	public static double timeIncrement = 400;
+	public static final double MIN_TIME_INCREMENT = 200;
+	public static final double MAX_TIME_DECAY = 300;
 	
 	public static final int DEFAULT_PLAYER_SPEED = 10;
 	public static final int SLOWED_PLAYER_SPEED = 4;
@@ -27,7 +30,7 @@ public class GameController implements Commons {
 	public static final int SLOWED_TIME_DECAY = 1;
 
 	public static final int LANDMINE_STAGE = 12;
-	public static final int MAX_LANDMINE_COUNT = 8;
+	public static final int MAX_LANDMINE_COUNT = 5;
 	
 	public static boolean inGame = true;
 	public static double currentTime;
@@ -59,7 +62,15 @@ public class GameController implements Commons {
 	}
 	
 	public static void increaseTime() {
-		setCurrentTime(Math.min(MAX_TIME, currentTime + TIME_INCREMENT));		
+		setCurrentTime(Math.min(MAX_TIME, currentTime + timeIncrement));		
+		if(timeIncrement > MIN_TIME_INCREMENT)
+		{
+			timeIncrement /= 1.002;
+		}
+		else
+		{ 
+			timeIncrement = MIN_TIME_INCREMENT;
+		}
 	}
 	
 	public static boolean isSlowed() {
@@ -223,7 +234,10 @@ public class GameController implements Commons {
 	}
 	
 	public static void updateTimeDecay() {
-		setTimeDecay(getTimeDecay());
+		if(getTimeDecay() *1.1 < MAX_TIME_DECAY) 
+		{
+			setTimeDecay(getTimeDecay()*1.01);
+		}
 	}
 
 	public static int getLandmineCount() {

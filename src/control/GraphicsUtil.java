@@ -154,5 +154,6 @@ public class GraphicsUtil implements Commons {
 		g.setTextAlign(TextAlignment.CENTER);
         g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
         g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
+        GraphicsUtil.drawScore(g);
 	}
 }
