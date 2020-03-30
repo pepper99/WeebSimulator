@@ -1,19 +1,21 @@
 package firstMode.sprite;
 
+//import javafx.scene.image.WritableImage;
+//import javafx
 import javafx.scene.image.WritableImage;
-
-public class Sprite {
+public abstract class Sprite {
 
     private boolean visible;
     private WritableImage image;
 
-    int x;
-    int y;
-    int dx;
-    int dy;
+    protected int x;
+    protected int y;
+    protected int dx;
+    protected int dy;
+	protected int index;
 
     public Sprite() {
-
+        index = 0;
         visible = true;
     }
 
@@ -56,4 +58,13 @@ public class Sprite {
 
         return x;
     }
+    
+    public abstract int getTrueX();
+    public abstract int getTrueY();
+	
+	public void updateIndex() {
+		index = (index + 1) % 2;
+	}
+	
+	public abstract void updateImage();
 }
