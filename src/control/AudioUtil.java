@@ -23,7 +23,7 @@ public class AudioUtil {
 	public static void musicInit() {
 		Media h = new Media(ClassLoader.getSystemResource("musics/bgm.mp3").toString());
 		mediaPlayer = new MediaPlayer(h);
-		mediaPlayer.setVolume(0.25);
+		mediaPlayer.setVolume(0.5);
 		mediaPlayer.setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
@@ -39,12 +39,8 @@ public class AudioUtil {
     	for(int i = 0; i < SFX_COUNT; i++) {
     		String url = ClassLoader.getSystemResource("musics/sfx" + i + ".mp3").toString();
     		sfx[i] = new AudioClip(url);
-//    		sfx[i] = new AudioClip(("musics/sfx" + i + ".mp3"));
-//    		sfx[i] = new AudioClip("musics/sfx" + i + ".mp3");
     		sfx[i].setVolume(1);
     	}
-//		sfx[0] = new AudioClip("musics/sfx" + 0 + ".mp3");
-//		sfx[0].play();
 		
 	}
 	

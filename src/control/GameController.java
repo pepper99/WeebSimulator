@@ -9,9 +9,8 @@ import sprite.base.Sprite;
 public class GameController implements Commons {
 	public static final double START_TIME = 800;
 	public static final double MAX_TIME = 1200;
-//	public static final double TIME_INCREMENT = 200;
 	public static final double INITIAL_TIME_DECAY = 2.5;
-	public static double timeIncrement = 400;
+	public static final double INITIAL_TIME_INCREMENT = 400;
 	public static final double MIN_TIME_INCREMENT = 200;
 	public static final double MAX_TIME_DECAY = 300;
 	
@@ -42,6 +41,7 @@ public class GameController implements Commons {
 	public static int slowTime;
 	public static double timeDecay;
 	public static int landmineCount;
+	public static double timeIncrement;
 
 	public static void initController() {
 		setInGame(true);
@@ -51,6 +51,7 @@ public class GameController implements Commons {
 		setPlayerBoostGauge(MAX_BOOST_GAUGE);
 		setBoostBan(false);
 		setTimeDecay(INITIAL_TIME_DECAY);
+		setTimeIncrement(INITIAL_TIME_INCREMENT);
 		setLandmineCount(0);
 	}
 	
@@ -62,15 +63,7 @@ public class GameController implements Commons {
 	}
 	
 	public static void increaseTime() {
-		setCurrentTime(Math.min(MAX_TIME, currentTime + timeIncrement));		
-		if(timeIncrement > MIN_TIME_INCREMENT)
-		{
-			timeIncrement /= 1.002;
-		}
-		else
-		{ 
-			timeIncrement = MIN_TIME_INCREMENT;
-		}
+		setCurrentTime(Math.min(MAX_TIME, currentTime + timeIncrement));
 	}
 	
 	public static boolean isSlowed() {
@@ -130,6 +123,7 @@ public class GameController implements Commons {
 	public static void increaseScore() {
 		setScore(getScore() + 1);
 		updateTimeDecay();
+		updateTimeIncrement();
 		updateLandmineCount();
 	}
 	
@@ -234,10 +228,7 @@ public class GameController implements Commons {
 	}
 	
 	public static void updateTimeDecay() {
-		if(getTimeDecay() *1.1 < MAX_TIME_DECAY) 
-		{
-			setTimeDecay(getTimeDecay()*1.01);
-		}
+		setTimeDecay(Math.min(MAX_TIME_DECAY, getTimeDecay()*1.01));
 	}
 
 	public static int getLandmineCount() {
@@ -256,5 +247,17 @@ public class GameController implements Commons {
 		if(score % LANDMINE_STAGE == 0) {
 			increaseLandmineCount();
 		}
+	}
+
+	public static double getTimeIncrement() {
+		return timeIncrement;
+	}
+
+	public static void setTimeIncrement(double timeIncrement) {
+		GameController.timeIncrement = timeIncrement;
+	}
+	
+	public static void updateTimeIncrement() {
+		setTimeIncrement(Math.max(MIN_TIME_INCREMENT, timeIncrement /= 1.002));
 	}
 }
