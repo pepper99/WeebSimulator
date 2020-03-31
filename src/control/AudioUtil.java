@@ -14,6 +14,8 @@ public class AudioUtil {
 	
 	private static MediaPlayer mediaPlayer;
 	private static AudioClip[] sfx;
+	private static MediaPlayer die;
+	
 	
 	public static void init() {
 		sfxInit();
@@ -33,7 +35,12 @@ public class AudioUtil {
 	    });
 		mediaPlayer.play();
 	}
-	
+	public static void dyingFX()
+	{
+		Media j  =  new Media(ClassLoader.getSystemResource("musics/sfx4.mp3").toString());
+		die = new MediaPlayer(j);
+		die.isAutoPlay();
+	}
 	public static void sfxInit() {
 		sfx = new AudioClip[3];
     	for(int i = 0; i < SFX_COUNT; i++) {

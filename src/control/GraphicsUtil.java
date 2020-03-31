@@ -141,19 +141,39 @@ public class GraphicsUtil implements Commons {
 			}
 		}
 	}
+//	private static void delay(GraphicsContext g)
+//	{
+//		try
+//		{
+//			Image YD = new Image(ClassLoader.getSystemResource("images/YouDie.png").toString());
+//			bg = new WritableImage(YD.getPixelReader(), WINDOW_WIDTH, WINDOW_HEIGHT);
+//			drawBG(g);
+//			Thread.sleep(7000);
+//		}
+//		catch(java.lang.InterruptedException iex)
+//		{
+//			
+//		}
+//		
+//	}
+	
 
 	private static void gameOver(GraphicsContext g) {
-		g.setFill(Color.BLACK);
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		
-		Font font = Font.font( "Helvetica", FontWeight.BOLD, 64 );
-	    g.setFont(font);
-	    g.setStroke(Color.WHITE);
-	    g.setLineWidth(1);		
-		g.setFill(Color.RED);
-		g.setTextAlign(TextAlignment.CENTER);
-        g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        GraphicsUtil.drawScore(g);
+		Image YD = new Image(ClassLoader.getSystemResource("images/YouDie.png").toString());
+		bg = new WritableImage(YD.getPixelReader(), WINDOW_WIDTH, WINDOW_HEIGHT);
+		drawBG(g);
+		AudioUtil.dyingFX();
+
+//		g.setFill(Color.BLACK);
+//		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+//		Font font = Font.font( "Helvetica", FontWeight.BOLD, 64 );
+//	    g.setFont(font);
+//	    g.setStroke(Color.WHITE);
+//	    g.setLineWidth(1);		
+//		g.setFill(Color.RED);
+//		g.setTextAlign(TextAlignment.CENTER);
+//        g.fillText("Well Play : " + GameController.getScore(), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
+//        g.strokeText("Well Play : " + GameController.getScore(), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
+//        GraphicsUtil.drawScore(g);
 	}
 }
