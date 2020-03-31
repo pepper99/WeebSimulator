@@ -22,34 +22,30 @@ import sprite.Target;
 public class GraphicsUtil implements Commons {
 	
 	private static WritableImage bg;
+	private static WritableImage menu;
 	
 	public static void init() {
-		Image ii = new Image(ClassLoader.getSystemResource("images/bg.png").toString());
-		bg = new WritableImage(ii.getPixelReader(), WINDOW_WIDTH, WINDOW_HEIGHT);
+		bg = new WritableImage(new Image(ClassLoader.getSystemResource("images/bg.png").toString()).getPixelReader(),
+				WINDOW_WIDTH, WINDOW_HEIGHT);
+		menu = new WritableImage(new Image(ClassLoader.getSystemResource("images/menu.png").toString()).getPixelReader(),
+				WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
 	public static void doDrawing(GraphicsContext g, ArrayList<Target> targets, Player player,  ArrayList<Landmine> landmines,
 			FloatingTextController floatingTextController) {
 		if(GameController.boost()) {
 			g.setEffect(new InnerShadow(100, Color.WHITE));
-        }
+	    }
 		GraphicsUtil.drawBG(g);
-
-		if (GameController.isInGame()) {
-			g.setEffect(new DropShadow(20, 0, 14, Color.rgb(18, 18, 18)));
-			if(GameController.hasLandmine()) GraphicsUtil.drawLandmine(g, landmines);
-			GraphicsUtil.drawPlayer(g, player);
-			GraphicsUtil.drawTargets(g, targets);
-			g.setEffect(null);
-			if(!floatingTextController.isEmpty()) drawFloatingText(g, floatingTextController);
-			GraphicsUtil.drawTimeBar(g);
-			GraphicsUtil.drawBoostBar(g);
-			GraphicsUtil.drawScore(g);
-		}
-		else {
-			g.setEffect(null);
-			gameOver(g);
-		}
+		g.setEffect(new DropShadow(20, 0, 14, Color.rgb(18, 18, 18)));
+		if(GameController.hasLandmine()) GraphicsUtil.drawLandmine(g, landmines);
+		GraphicsUtil.drawPlayer(g, player);
+		GraphicsUtil.drawTargets(g, targets);
+		g.setEffect(null);
+		if(!floatingTextController.isEmpty()) drawFloatingText(g, floatingTextController);
+		GraphicsUtil.drawTimeBar(g);
+		GraphicsUtil.drawBoostBar(g);
+		GraphicsUtil.drawScore(g);
 	}
 	
 	public static void drawBG(GraphicsContext g) {
@@ -142,7 +138,7 @@ public class GraphicsUtil implements Commons {
 		}
 	}
 
-	private static void gameOver(GraphicsContext g) {
+	public static void drawGameOver(GraphicsContext g) {
 		g.setFill(Color.BLACK);
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
@@ -155,5 +151,9 @@ public class GraphicsUtil implements Commons {
         g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
         g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
         GraphicsUtil.drawScore(g);
+	}
+	
+	public static void drawMenu(GraphicsContext g) {
+		g.drawImage(menu, 0, 0);
 	}
 }

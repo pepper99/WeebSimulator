@@ -21,63 +21,74 @@ import control.FloatingTextController;
 import control.GameController;
 import control.GraphicsUtil;
 import control.Randomizer;
+import control.SceneUtil;
 import control.SpriteController;
 
 public class Main extends Application implements Commons {
-
+	
 	private ArrayList<Target> targets;
 	private ArrayList<Landmine> landmines;
 	private Player player;
 	private FloatingTextController floatingTextController;
 	
 	private GraphicsContext graphicsContext;
+	private static AnimationTimer animationTimer;
+	private Stage stage;
+	private Scene scene;
 	
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		GameController.initController();
-		SpriteController.initContorller();
-		GraphicsUtil.init();
-		AudioUtil.init();
-		floatingTextController = new FloatingTextController();
+	public void start(Stage stage) throws Exception {
+		this.stage = stage;
 		
 		StackPane root = new StackPane();		
-		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
+		scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		graphicsContext = canvas.getGraphicsContext2D();
-		
-		root.getChildren().add(canvas);
+		floatingTextController = new FloatingTextController();
 
+		root.getChildren().add(canvas);
+		
+		animationTimer = new AnimationTimer(){
+		    public void handle(long currentNanoTime)
+		    {
+		    	if(GameController.isInGame()) {
+					update();
+					GraphicsUtil.doDrawing(graphicsContext, targets, player, landmines, floatingTextController);
+		    	}
+		    	else {
+		    		gameInit();
+		    	}
+		    }
+		};
+		
+    	gameInit();
+		GraphicsUtil.init();
+		AudioUtil.init();
+		SceneUtil.init(stage, scene, animationTimer);
+		
+		stage.setTitle("Weeb Simulator 2020");
+		stage.setScene(SceneUtil.getMenuScene());
+		stage.show();
+		AudioUtil.playMusic(AudioUtil.BGM_MENU);
+	}
+	
+	private void gameInit() {
 		player = new Player();
 		targetInit(player.getTrueX(), player.getTrueY());
 		
-		scene.setOnKeyPressed(
-				new EventHandler<KeyEvent>()
-	            {
-	                public void handle(KeyEvent e)
-	                {
-	        			player.keyPressed(e);
-	                }
-	            });
-		scene.setOnKeyReleased(
-				new EventHandler<KeyEvent>() {
-					public void handle(KeyEvent e) {
-						player.keyReleased(e);
-					};
-				}
-		);
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent e) {
+				player.keyPressed(e);
+			}
+	    });
+		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent e) {
+				player.keyReleased(e);
+			};
+		});
 		
-		new AnimationTimer()
-		{
-		    public void handle(long currentNanoTime)
-		    {
-				update();
-				GraphicsUtil.doDrawing(graphicsContext, targets, player, landmines, floatingTextController);
-		    }
-		}.start();
-		
-		primaryStage.setTitle("Weeb Simulator 2020");
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		GameController.initController();
+		SpriteController.initContorller();
 	}
 
 	private void update() {
@@ -86,6 +97,8 @@ public class Main extends Application implements Commons {
 		if (GameController.getCurrentTime() == 0) {
 			GameController.setInGame(false);
 			AudioUtil.stopAudio();
+			animationTimer.stop();
+			stage.setScene(SceneUtil.getGameOverScene());
 		}
 		else {
 			GameController.decreaseTime();

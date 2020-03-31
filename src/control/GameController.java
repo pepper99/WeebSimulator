@@ -31,7 +31,7 @@ public class GameController implements Commons {
 	public static final int LANDMINE_STAGE = 12;
 	public static final int MAX_LANDMINE_COUNT = 5;
 	
-	public static boolean inGame = true;
+	public static boolean inGame;
 	public static double currentTime;
 	public static int playerState;
 	public static int score;
@@ -53,6 +53,7 @@ public class GameController implements Commons {
 		setTimeDecay(INITIAL_TIME_DECAY);
 		setTimeIncrement(INITIAL_TIME_INCREMENT);
 		setLandmineCount(0);
+		setInGame(true);
 	}
 	
 	public static void decreaseTime() {

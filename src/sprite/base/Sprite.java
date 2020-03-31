@@ -13,11 +13,12 @@ public abstract class Sprite implements Visible, Coordinate {
     protected int y;
     protected int dx;
     protected int dy;
-	protected int index;
+	protected int spriteIndex;
+	protected int spriteTimer;
     protected WritableImage[][] imageArrays;
 
     public Sprite() {
-        index = 0;
+    	spriteIndex = 0;
         visible = true;
         initImageArrays();
     }
@@ -65,11 +66,14 @@ public abstract class Sprite implements Visible, Coordinate {
     public abstract int getTrueX();
     public abstract int getTrueY();
 	
-	public void updateIndex() {
-		index = (index + 1) % 2;
+	public void updateSpriteIndex() {
+		spriteIndex = (spriteIndex + 1) % 2;
+		updateImage();
 	}
 	
 	protected abstract void initImageArrays();
 	
 	public abstract void updateImage();
+	
+	public abstract int getSpriteInterval();
 }

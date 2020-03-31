@@ -36,7 +36,7 @@ public class Landmine extends Sprite implements Commons {
 
 	@Override
 	public void updateImage() {
-        setImage(imageArrays[0][index]);		
+        setImage(imageArrays[0][spriteIndex]);		
 	}
 	
 	@Override
@@ -47,5 +47,10 @@ public class Landmine extends Sprite implements Commons {
 	@Override
 	public int getTrueY() {
 		return getY() + LANDMINE_HEIGHT/2;
+	}
+
+	@Override
+	public int getSpriteInterval() {
+		return 5;
 	}
 }

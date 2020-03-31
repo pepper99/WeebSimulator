@@ -72,7 +72,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
 
 	@Override
 	public void updateImage() {
-        setImage(imageArrays[getType()][index]);
+        setImage(imageArrays[getType()][spriteIndex]);
 	}
 
     public void act() {
@@ -179,5 +179,10 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	@Override
 	public int getTrueY() {
 		return getY() + PLAYER_HEIGHT/2;
+	}
+
+	@Override
+	public int getSpriteInterval() {
+		return 10;
 	}
 }

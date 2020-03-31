@@ -1,5 +1,7 @@
 package base;
 
+import javafx.scene.paint.Color;
+
 public interface Commons {
 
     int WINDOW_WIDTH = 1280;
@@ -26,4 +28,6 @@ public interface Commons {
     
     int LANDMINE_WIDTH = 80;
     int LANDMINE_HEIGHT = 80;
+    
+    Color MENU_COLOR = Color.rgb(159, 73, 133);
 }

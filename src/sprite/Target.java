@@ -50,7 +50,7 @@ public class Target extends Sprite implements Commons, Type {
 	
 	@Override
 	public void updateImage() {
-        setImage(imageArrays[getType()][index]);
+        setImage(imageArrays[getType()][spriteIndex]);
 	}
 
 	@Override
@@ -61,5 +61,10 @@ public class Target extends Sprite implements Commons, Type {
 	@Override
 	public int getTrueY() {
 		return getY() + TARGET_HEIGHT/2;
+	}
+
+	@Override
+	public int getSpriteInterval() {
+		return 30;
 	}
 }

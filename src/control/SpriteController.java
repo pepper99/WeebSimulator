@@ -3,13 +3,15 @@ package control;
 import sprite.base.Sprite;
 
 public class SpriteController {
-	public static final int MAX_TIME = 100;
+	public static final int MAX_TIME = 60; //LCM of all intervals
+	private static final int FLASH_INTERVAL = 20;
+	private static final int FLASH_DURATION = 11;
 	
 	private static int timer;
 	private static int flashTimer;
 	
 	public static void initContorller() {
-		timer = 0;
+		timer = 1;
 	}
 	
 	public static void increaseTime() {
@@ -17,15 +19,14 @@ public class SpriteController {
 	}
 	
 	public static void switchSprite(Sprite sprite) {
-		if (timer % 20 == 0) {
-			sprite.updateIndex();
-			sprite.updateImage();
+		if (timer % sprite.getSpriteInterval() == 0) {
+			sprite.updateSpriteIndex();
 		}
 	}
 	
 	public static boolean flash() {
-		if (timer % 20 == 0) {
-			flashTimer = 11;
+		if (timer % FLASH_INTERVAL == 0) {
+			flashTimer = FLASH_DURATION;
 		}
 		flashTimer = Math.max(0, flashTimer - 1);
 		return flashTimer > 0 ? true : false;
