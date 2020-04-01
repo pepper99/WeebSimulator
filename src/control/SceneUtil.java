@@ -104,15 +104,21 @@ public class SceneUtil implements Commons {
     
        
         Scene scene = new Scene(root,1280,720);  
-        root.getChildren().add(getButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent t) {
-				stage.setScene(gameOverScene);
-				stage.show();
-//				animationTimer.start();
-//				AudioUtil.playMusic(AudioUtil.BGM_GAME);
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event)
+			{
+				switch (event.getCode())
+				{
+				case ENTER: 
+					mediaPlayer.stop();
+					stage.setScene(gameOverScene);
+					stage.show();
+					break;
+				}
 			}
-		}));
+		
+		}
+		);
         return scene;
         
 
@@ -127,6 +133,7 @@ public class SceneUtil implements Commons {
 		root.getChildren().add(getButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
+				
 				stage.setScene(gameScene);
 				stage.show();
 				animationTimer.start();
