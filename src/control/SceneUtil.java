@@ -86,7 +86,7 @@ public class SceneUtil implements Commons {
 		return null;
 	}
 
-	public static Scene youdie()
+	public static Scene gameOver()
 	{
 		String path = "res/musics/3.mp4";  
 
@@ -104,21 +104,7 @@ public class SceneUtil implements Commons {
     
        
         Scene scene = new Scene(root,1280,720);  
-//        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//			public void handle(KeyEvent event)
-//			{
-//				switch (event.getCode())
-//				{
-//				case ENTER: 
-//					mediaPlayer.stop();
-//					stage.setScene(gameOverScene);
-//					stage.show();
-//					break;
-//				}
-//			}
-//		
-//		}
-//		);
+
         return scene;
         
 
@@ -175,28 +161,7 @@ public class SceneUtil implements Commons {
 		return nodes;
 	}
 	
-	private static Rectangle getBlackButton(int x, int y, int width, int height) {
-		Rectangle rect = new Rectangle(x, y, width, height);
-		rect.setOpacity(1);
-		rect.setFill(Color.BLACK);
-		rect.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent event)
-			{
-				switch (event.getCode())
-				{
-				case ENTER: 
-					stage.setScene(gameScene);
-					stage.show();
-					break;
-				}
-			}
-		
-		}
-		);
-//		rect.seOn
-		
-		return rect;
-	}
+
 	
 	private static Rectangle getButton(int x, int y, int width, int height, EventHandler<MouseEvent> eventHandler) {
 		Rectangle rect = new Rectangle(x, y, width, height);
