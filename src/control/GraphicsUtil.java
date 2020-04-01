@@ -22,6 +22,7 @@ import sprite.Target;
 public class GraphicsUtil implements Commons {
 	
 	private static WritableImage bg;
+	private static WritableImage menuBG;
 	private static WritableImage menu;
 	
 	public static void init() {
@@ -29,6 +30,8 @@ public class GraphicsUtil implements Commons {
 				WINDOW_WIDTH, WINDOW_HEIGHT);
 		menu = new WritableImage(new Image(ClassLoader.getSystemResource("images/menu.png").toString()).getPixelReader(),
 				WINDOW_WIDTH, WINDOW_HEIGHT);
+		menuBG = new WritableImage(new Image(ClassLoader.getSystemResource("images/menu_bg.png").toString()).getPixelReader(),
+				MENU_BG_WIDTH, MENU_BG_HEIGHT);
 	}
 
 	public static void doDrawing(GraphicsContext g, ArrayList<Target> targets, Player player,  ArrayList<Landmine> landmines,
@@ -153,7 +156,11 @@ public class GraphicsUtil implements Commons {
         GraphicsUtil.drawScore(g);
 	}
 	
-	public static void drawMenu(GraphicsContext g) {
+	public static void drawMenu(GraphicsContext g, int x, int y) {
+		g.drawImage(menuBG, x - MENU_BG_WIDTH, y - MENU_BG_HEIGHT);
+		g.drawImage(menuBG, x, y - MENU_BG_HEIGHT);
+		g.drawImage(menuBG, x - MENU_BG_WIDTH, y);
+		g.drawImage(menuBG, x, y);
 		g.drawImage(menu, 0, 0);
 	}
 }

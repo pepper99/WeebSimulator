@@ -6,6 +6,9 @@ public interface Commons {
 
     int WINDOW_WIDTH = 1280;
     int WINDOW_HEIGHT = 720;
+	int MENU_BG_WIDTH = 1740;
+	int MENU_BG_HEIGHT = 1522;
+	
     int BORDER_RIGHT = 30;
     int BORDER_LEFT = 30;
     int BORDER_TOP = 100;

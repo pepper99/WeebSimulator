@@ -25,6 +25,7 @@ public class SceneUtil implements Commons {
 	private static Scene helpScene;
 	private static Scene gameOverScene;
 	private static AnimationTimer animationTimer;
+	private static AnimationTimer menuAnim;
 	
 	public static void init(Stage stage, Scene gameScene, AnimationTimer animationTimer) {
 		SceneUtil.stage = stage;
@@ -43,9 +44,22 @@ public class SceneUtil implements Commons {
 		GraphicsContext g = canvas.getGraphicsContext2D();
 		root.getChildren().add(canvas);
 		
+		menuAnim = new AnimationTimer(){
+			int x = 0;
+			int y = 0;
+			
+		    public void handle(long currentNanoTime)
+		    {
+				GraphicsUtil.drawMenu(g, MENU_BG_WIDTH - x - 1, MENU_BG_HEIGHT - y - 1);
+				x = (x + 1) % MENU_BG_WIDTH;
+				y = (y + 1) % MENU_BG_HEIGHT;
+		    }
+		};
+		
 		root.getChildren().addAll(getMenuButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
+				menuAnim.stop();
 				stage.setScene(gameScene);
 				stage.show();
 				animationTimer.start();
@@ -56,6 +70,7 @@ public class SceneUtil implements Commons {
 		root.getChildren().addAll(getMenuButton(61, 475, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
+				menuAnim.stop();
 				stage.setScene(helpScene);
 				stage.show();
 			}
@@ -68,8 +83,7 @@ public class SceneUtil implements Commons {
 			}
 		}));
 		
-		GraphicsUtil.drawMenu(g);
-		
+		menuAnim.start();		
 		return scene;
 	}
 
@@ -99,6 +113,7 @@ public class SceneUtil implements Commons {
 			public void handle(MouseEvent t) {
 				stage.setScene(menuScene);
 				stage.show();
+				menuAnim.start();
 				AudioUtil.playMusic(AudioUtil.BGM_MENU);
 			}
 		}));

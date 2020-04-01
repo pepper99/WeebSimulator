@@ -68,6 +68,7 @@ public class Main extends Application implements Commons {
 		
 		stage.setTitle("Weeb Simulator 2020");
 		stage.setScene(SceneUtil.getMenuScene());
+		stage.setResizable(false);
 		stage.show();
 		AudioUtil.playMusic(AudioUtil.BGM_MENU);
 	}
