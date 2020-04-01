@@ -1,17 +1,26 @@
 package control;
 
+import java.io.File;
+
 import base.Commons;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -90,7 +99,30 @@ public class SceneUtil implements Commons {
 	public static Scene setHelpScene() {
 		return null;
 	}
-	
+
+	public static Scene gameOver()
+	{
+		String path = "res/musics/3.mp4";  
+
+        Media media = new Media(new File(path).toURI().toString());  
+
+        MediaPlayer mediaPlayer = new MediaPlayer(media);   
+        MediaView mediaView = new MediaView(mediaPlayer);  
+        mediaPlayer.setAutoPlay(true);   
+        Button btn1 = new Button("go to result");
+        btn1.setOnAction(e -> stage.setScene(getGameOverScene()));
+        Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
+        Group root = new Group();  
+        root.getChildren().add(mediaView);  
+        root.getChildren().add(canvas);
+    
+       
+        Scene scene = new Scene(root,1280,720);  
+
+        return scene;
+        
+
+	}
 	public static Scene setGameOverScene() {
 		Pane root = new Pane();
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -101,6 +133,7 @@ public class SceneUtil implements Commons {
 		root.getChildren().add(getButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
+				
 				stage.setScene(gameScene);
 				stage.show();
 				animationTimer.start();
@@ -143,11 +176,14 @@ public class SceneUtil implements Commons {
 		return nodes;
 	}
 	
+
+	
 	private static Rectangle getButton(int x, int y, int width, int height, EventHandler<MouseEvent> eventHandler) {
 		Rectangle rect = new Rectangle(x, y, width, height);
 		rect.setOpacity(1);
 		rect.setFill(Color.RED);
 		rect.setOnMouseClicked(eventHandler);
+	
 		return rect;
 	}
 	
