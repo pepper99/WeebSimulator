@@ -88,7 +88,7 @@ public class SceneUtil implements Commons {
 
 	public static Scene youdie()
 	{
-		String path = "res/musics/1.mp4";  
+		String path = "res/musics/3.mp4";  
 
         Media media = new Media(new File(path).toURI().toString());  
 
@@ -104,21 +104,21 @@ public class SceneUtil implements Commons {
     
        
         Scene scene = new Scene(root,1280,720);  
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent event)
-			{
-				switch (event.getCode())
-				{
-				case ENTER: 
-					mediaPlayer.stop();
-					stage.setScene(gameOverScene);
-					stage.show();
-					break;
-				}
-			}
-		
-		}
-		);
+//        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//			public void handle(KeyEvent event)
+//			{
+//				switch (event.getCode())
+//				{
+//				case ENTER: 
+//					mediaPlayer.stop();
+//					stage.setScene(gameOverScene);
+//					stage.show();
+//					break;
+//				}
+//			}
+//		
+//		}
+//		);
         return scene;
         
 

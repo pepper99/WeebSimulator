@@ -142,15 +142,15 @@ public class GraphicsUtil implements Commons {
 		g.setFill(Color.BLACK);
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		Font font = Font.font( "Helvetica", FontWeight.BOLD, 64 );
-	    g.setFont(font);
-	    g.setStroke(Color.WHITE);
+//		Font font = Font.font( "font/MosterFriendBack.otf", FontWeight.BOLD, 64 );
+	    g.setFont(Font.loadFont("MonsterFreindBack.otf", 600));
+//	    g.setStroke(Color.WHITE);
 	    g.setLineWidth(1);		
-		g.setFill(Color.RED);
+		g.setFill(Color.WHITE);
 		g.setTextAlign(TextAlignment.CENTER);
         g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
         g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        GraphicsUtil.drawScore(g);
+//        GraphicsUtil.drawScore(g);
 	}
 	
 	public static void drawMenu(GraphicsContext g) {
