@@ -99,8 +99,7 @@ public class Main extends Application implements Commons {
 			GameController.setInGame(false);
 			AudioUtil.stopAudio();
 			animationTimer.stop();
-			stage.setScene(SceneUtil.gameOver());
-
+			stage.setScene(SceneUtil.getGameOverScene());
 		}
 		else {
 			GameController.decreaseTime();
