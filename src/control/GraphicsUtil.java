@@ -126,7 +126,8 @@ public class GraphicsUtil implements Commons {
 		else {
 			g.setFill(Color.DEEPSKYBLUE);
 		}
-		g.fillRect((WINDOW_WIDTH - GameController.getPlayerBoostGauge()) / 2, BOOSTBAR_Y, GameController.getPlayerBoostGauge(), BOOSTBAR_HEIGHT);
+		g.fillRect((WINDOW_WIDTH - GameController.getPlayerBoostGauge()) / 2, BOOSTBAR_Y,
+				GameController.getPlayerBoostGauge(), BOOSTBAR_HEIGHT);
 	}
 	
 	public static void drawFloatingText(GraphicsContext g, FloatingTextController floatingTextController) {

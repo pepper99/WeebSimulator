@@ -16,7 +16,7 @@ public class AudioUtil {
 	public static final int BGM_GAME = 0;
 	public static final int BGM_MENU = 1;
 	
-	private static MediaPlayer[] bgm;
+	public static MediaPlayer[] bgm;
 	private static AudioClip[] sfx;
 	
 	public static void init() {
@@ -39,16 +39,19 @@ public class AudioUtil {
     		sfx[i] = new AudioClip(url);
     		sfx[i].setVolume(1);
     	}
-		
 	}
 	
 	public static void playMusic(int type) {
 		stopMusic();
-    	bgm[type].seek(Duration.ZERO);
 		bgm[type].setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
-	        	playMusic(type);
+	        	if(type == BGM_MENU) {
+	        		bgm[type].seek(Duration.seconds(22));
+	        	}
+	        	else {
+	        		bgm[type].seek(Duration.seconds(0));	        		
+	        	}
 	        }
 	    });
     	bgm[type].play();

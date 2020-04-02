@@ -12,6 +12,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -45,14 +48,14 @@ public class SceneUtil implements Commons {
 		root.getChildren().add(canvas);
 		
 		menuAnim = new AnimationTimer(){
-			int x = 0;
-			int y = 0;
+			double x = 242;
+			double y = 0;
 			
 		    public void handle(long currentNanoTime)
 		    {
-				GraphicsUtil.drawMenu(g, MENU_BG_WIDTH - x - 1, MENU_BG_HEIGHT - y - 1);
-				x = (x + 1) % MENU_BG_WIDTH;
-				y = (y + 1) % MENU_BG_HEIGHT;
+				GraphicsUtil.drawMenu(g, MENU_BG_WIDTH - (int) x - 1, MENU_BG_HEIGHT - (int) y - 1);
+				x = (x + 0.5) % MENU_BG_WIDTH;
+				y = (y + 0.5) % MENU_BG_HEIGHT;
 		    }
 		};
 		
@@ -75,6 +78,7 @@ public class SceneUtil implements Commons {
 				stage.show();
 			}
 		}));
+		
 		root.getChildren().addAll(getMenuButton(61, 550, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
@@ -83,7 +87,18 @@ public class SceneUtil implements Commons {
 			}
 		}));
 		
-		menuAnim.start();		
+		MediaPlayer mediaPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/intro.mp4").toString()));
+		mediaPlayer.setAutoPlay(true);
+		MediaView mediaView = new MediaView(mediaPlayer);
+		mediaPlayer.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
+	        	mediaView.setVisible(false);
+	    		menuAnim.start();
+	        }
+	    });
+		
+		root.getChildren().add(mediaView);
 		return scene;
 	}
 
@@ -119,7 +134,6 @@ public class SceneUtil implements Commons {
 		}));
 		
 		GraphicsUtil.drawGameOver(g);
-		
 		return scene;
 	}
 	
