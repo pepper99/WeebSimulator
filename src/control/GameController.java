@@ -31,17 +31,17 @@ public class GameController implements Commons {
 	public static final int LANDMINE_STAGE = 12;
 	public static final int MAX_LANDMINE_COUNT = 5;
 	
-	public static boolean inGame;
-	public static double currentTime;
-	public static int playerState;
-	public static int score;
-	public static int playerBoostGauge;
-	public static boolean boostTrying;
-	public static boolean boostBan;
-	public static int slowTime;
-	public static double timeDecay;
-	public static int landmineCount;
-	public static double timeIncrement;
+	private static boolean inGame;
+	private static double currentTime;
+	private static int playerState;
+	private static int score;
+	private static int playerBoostGauge;
+	private static boolean boostTrying;
+	private static boolean boostBan;
+	private static int slowTime;
+	private static double timeDecay;
+	private static int landmineCount;
+	private static double timeIncrement;
 
 	public static void initController() {
 		setInGame(true);

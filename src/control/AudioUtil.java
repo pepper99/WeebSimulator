@@ -16,7 +16,7 @@ public class AudioUtil {
 	public static final int BGM_GAME = 0;
 	public static final int BGM_MENU = 1;
 	
-	public static MediaPlayer[] bgm;
+	private static MediaPlayer[] bgm;
 	private static AudioClip[] sfx;
 	
 	public static void init() {
