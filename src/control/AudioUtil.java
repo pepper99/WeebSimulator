@@ -1,5 +1,6 @@
 package control;
 
+import exception.AudioUtilException;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -7,28 +8,32 @@ import javafx.util.Duration;
 
 public class AudioUtil {
 
-	public static final int SFX_COUNT = 3;
+	public static final int SFX_COUNT = 5;
 	public static final int SFX_WOW = 0;
 	public static final int SFX_BRUH = 1;	
 	public static final int SFX_KHALED = 2;
+	public static final int SFX_CLICK = 3;	
+	public static final int SFX_HOVER = 4;
 
-	public static final int BGM_COUNT = 2;
-	public static final int BGM_GAME = 0;
-	public static final int BGM_MENU = 1;
+	public static final int MUSIC_COUNT = 2;
+	public static final int MUSIC_GAME = 0;
+	public static final int MUSIC_MENU = 1;
 	
-	private static MediaPlayer[] bgm;
+	private static MediaPlayer[] music;
 	private static AudioClip[] sfx;
+	private static int currentMusic;
 	
 	public static void init() {
 		sfxInit();
 		musicInit();
+		currentMusic = -1;
 	}
 	
 	public static void musicInit() {
-		bgm = new MediaPlayer[BGM_COUNT];
-    	for(int i = 0; i < BGM_COUNT; i++) {
-    		bgm[i] = new MediaPlayer(new Media(ClassLoader.getSystemResource("musics/bgm" + i + ".mp3").toString()));
-    		bgm[i].setVolume(0.5);
+		music = new MediaPlayer[MUSIC_COUNT];
+    	for(int i = 0; i < MUSIC_COUNT; i++) {
+    		music[i] = new MediaPlayer(new Media(ClassLoader.getSystemResource("musics/music" + i + ".mp3").toString()));
+    		music[i].setVolume(0.5);
     	}
 	}
 	
@@ -43,23 +48,37 @@ public class AudioUtil {
 	
 	public static void playMusic(int type) {
 		stopMusic();
-		bgm[type].setOnEndOfMedia(new Runnable() {
+		music[type].setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
-	        	if(type == BGM_MENU) {
-	        		bgm[type].seek(Duration.seconds(22));
+	        	if(type == MUSIC_MENU) {
+	        		music[type].seek(Duration.seconds(22));
 	        	}
 	        	else {
-	        		bgm[type].seek(Duration.seconds(0));	        		
+	        		music[type].seek(Duration.seconds(0));	        		
 	        	}
 	        }
 	    });
-    	bgm[type].play();
+		music[type].play();
+		currentMusic = type;
 	}
 	
 	public static void stopMusic() {
-		for(MediaPlayer m : bgm) {
-			m.stop();
+		try {
+			if(isPlayingMusic()) {
+				music[currentMusic].stop();
+				currentMusic = -1;
+			}
+		} catch (AudioUtilException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static boolean isPlayingMusic() throws AudioUtilException {
+		if(currentMusic == -1) return false;
+		else if(currentMusic >= 0 && currentMusic < MUSIC_COUNT) return true;
+		else {
+			throw new AudioUtilException("Current music is nonexistent");
 		}
 	}
 	

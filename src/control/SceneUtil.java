@@ -59,38 +59,51 @@ public class SceneUtil implements Commons {
 		    }
 		};
 		
-		root.getChildren().addAll(getMenuButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
+		Node[][] buttons = new Node[3][2];
+		buttons[0] = getMenuButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
 				menuAnim.stop();
 				stage.setScene(gameScene);
 				stage.show();
 				animationTimer.start();
-				AudioUtil.playMusic(AudioUtil.BGM_GAME);
+				AudioUtil.playSFX(AudioUtil.SFX_CLICK);
+				AudioUtil.playMusic(AudioUtil.MUSIC_GAME);
 			}
-		}));
-		
-		root.getChildren().addAll(getMenuButton(61, 475, 140, 75, new EventHandler<MouseEvent>() {
+		});
+		buttons[1] = getMenuButton(61, 475, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
 				menuAnim.stop();
 				stage.setScene(helpScene);
 				stage.show();
+				AudioUtil.playSFX(AudioUtil.SFX_CLICK);
 			}
-		}));
-		
-		root.getChildren().addAll(getMenuButton(61, 550, 140, 75, new EventHandler<MouseEvent>() {
+		});
+		buttons[2] = getMenuButton(61, 550, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
+				AudioUtil.playSFX(AudioUtil.SFX_CLICK);
 		        Platform.exit();
 		        System.exit(0);
 			}
-		}));
+		});
 		
-		MediaPlayer mediaPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/intro.mp4").toString()));
-		mediaPlayer.setAutoPlay(true);
-		MediaView mediaView = new MediaView(mediaPlayer);
-		mediaPlayer.setOnEndOfMedia(new Runnable() {
+		MediaPlayer mediaPlayer0 = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/teamintro.mp4").toString()));
+		mediaPlayer0.setAutoPlay(true);
+		MediaPlayer mediaPlayer1 = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/intro.mp4").toString()));
+		MediaView mediaView = new MediaView(mediaPlayer0);
+		mediaPlayer0.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
+	        	mediaView.setMediaPlayer(mediaPlayer1);
+	        	mediaPlayer1.play();
+	    		root.getChildren().addAll(buttons[0]);
+	    		root.getChildren().addAll(buttons[1]);
+	    		root.getChildren().addAll(buttons[2]);
+	        }
+	    });
+		mediaPlayer1.setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
 	        	mediaView.setVisible(false);
@@ -118,8 +131,9 @@ public class SceneUtil implements Commons {
 			public void handle(MouseEvent t) {
 				stage.setScene(gameScene);
 				stage.show();
+				GameController.setRestart(true);
 				animationTimer.start();
-				AudioUtil.playMusic(AudioUtil.BGM_GAME);
+				AudioUtil.playMusic(AudioUtil.MUSIC_GAME);
 			}
 		}));
 		
@@ -129,7 +143,8 @@ public class SceneUtil implements Commons {
 				stage.setScene(menuScene);
 				stage.show();
 				menuAnim.start();
-				AudioUtil.playMusic(AudioUtil.BGM_MENU);
+				animationTimer.stop();
+				AudioUtil.playMusic(AudioUtil.MUSIC_MENU);
 			}
 		}));
 		
@@ -139,7 +154,6 @@ public class SceneUtil implements Commons {
 	
 	private static Node[] getMenuButton(int x, int y, int width, int height, EventHandler<MouseEvent> eventHandler) {
 		Circle circle = new Circle(x - 14, y + (height / 2), 10, Color.WHITE);
-		
 		circle.setStroke(MENU_COLOR);
 		circle.setStrokeWidth(5);
 		circle.setVisible(false);
@@ -148,12 +162,11 @@ public class SceneUtil implements Commons {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 circle.setVisible(newValue);
+                if(newValue) AudioUtil.playSFX(AudioUtil.SFX_HOVER);
             }
         });
 		
-		Node[] nodes = new Node[2];
-		nodes[0] = rect;
-		nodes[1] = circle;
+		Node[] nodes = {rect, circle};
 		return nodes;
 	}
 	

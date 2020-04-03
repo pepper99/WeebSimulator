@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -48,14 +49,14 @@ public class Main extends Application implements Commons {
 
 		root.getChildren().add(canvas);
 		
-		animationTimer = new AnimationTimer(){
+		animationTimer = new AnimationTimer(){			
 		    public void handle(long currentNanoTime)
 		    {
 		    	if(GameController.isInGame()) {
 					update();
 					GraphicsUtil.doDrawing(graphicsContext, targets, player, landmines, floatingTextController);
 		    	}
-		    	else {
+		    	else if(GameController.isRestart()) {
 		    		gameInit();
 		    	}
 		    }
@@ -67,10 +68,11 @@ public class Main extends Application implements Commons {
 		SceneUtil.init(stage, scene, animationTimer);
 		
 		stage.setTitle("Weeb Simulator 2020");
+		stage.getIcons().add(new Image(ClassLoader.getSystemResource("images/icon.png").toString()));
 		stage.setScene(SceneUtil.getMenuScene());
 		stage.setResizable(false);
 		stage.show();
-		AudioUtil.playMusic(AudioUtil.BGM_MENU);
+		AudioUtil.playMusic(AudioUtil.MUSIC_MENU);
 	}
 	
 	private void gameInit() {
@@ -98,7 +100,6 @@ public class Main extends Application implements Commons {
 		if (GameController.getCurrentTime() == 0) {
 			GameController.setInGame(false);
 			AudioUtil.stopAudio();
-			animationTimer.stop();
 			stage.setScene(SceneUtil.getGameOverScene());
 		}
 		else {

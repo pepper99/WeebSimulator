@@ -34,7 +34,7 @@ public class FloatingTextController {
 	public void updateTimer() {
 		for (Iterator<FloatingText> it = floatingTexts.iterator(); it.hasNext();) {
 			FloatingText f = it.next();
-			if(f.hasEnded()) {
+			if(f.isEnded()) {
 				it.remove();
 			}
 			else {
@@ -43,7 +43,7 @@ public class FloatingTextController {
 		}
 	}
 	
-	public class FloatingText implements Visible, Coordinate {
+	class FloatingText implements Visible, Coordinate {
 		public static final double START_TIME = 80;
 		
 		private String message;
@@ -74,8 +74,8 @@ public class FloatingTextController {
 			setTimer(START_TIME);
 		}
 		
-		public boolean hasEnded() {
-			return getTimer() == 0 ? true : false;
+		public boolean isEnded() {
+			return getTimer() == 0;
 		}
 		
 		public void updateTimer() {

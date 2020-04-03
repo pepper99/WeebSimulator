@@ -7,29 +7,29 @@ import sprite.Target;
 import sprite.base.Sprite;
 
 public class GameController implements Commons {
-	public static final double START_TIME = 800;
+	private static final double START_TIME = 800;
 	public static final double MAX_TIME = 1200;
-	public static final double INITIAL_TIME_DECAY = 2.5;
-	public static final double INITIAL_TIME_INCREMENT = 400;
-	public static final double MIN_TIME_INCREMENT = 200;
+	private static final double INITIAL_TIME_DECAY = 2.5;
+	private static final double INITIAL_TIME_INCREMENT = 400;
+	private static final double MIN_TIME_INCREMENT = 200;
 	public static final double MAX_TIME_DECAY = 300;
 	
-	public static final int DEFAULT_PLAYER_SPEED = 10;
-	public static final int SLOWED_PLAYER_SPEED = 4;
-	public static final int BOOST_SPEED = 4;
+	private static final int DEFAULT_PLAYER_SPEED = 10;
+	private static final int SLOWED_PLAYER_SPEED = 4;
+	private static final int BOOST_SPEED = 4;
 	
 	public static final int PLAYER_NORMAL = 0;
 	public static final int PLAYER_SLOW = 1;
 	
 	public static final int MAX_BOOST_GAUGE = 500;
-	public static final int BOOST_INCREMENT = 2;
-	public static final int BOOST_DECAY = 4;
+	private static final int BOOST_INCREMENT = 2;
+	private static final int BOOST_DECAY = 4;
 	
-	public static final int SLOWED_TIME = 200;
-	public static final int SLOWED_TIME_DECAY = 1;
+	private static final int SLOWED_TIME = 200;
+	private static final int SLOWED_TIME_DECAY = 1;
 
-	public static final int LANDMINE_STAGE = 12;
-	public static final int MAX_LANDMINE_COUNT = 5;
+	private static final int LANDMINE_STAGE = 12;
+	private static final int MAX_LANDMINE_COUNT = 5;
 	
 	private static boolean inGame;
 	private static double currentTime;
@@ -42,41 +42,43 @@ public class GameController implements Commons {
 	private static double timeDecay;
 	private static int landmineCount;
 	private static double timeIncrement;
+	private static boolean restart;
 
 	public static void initController() {
 		setInGame(true);
-		setCurrentTime(START_TIME);
+		currentTime = START_TIME;
 		setPlayerState(PLAYER_NORMAL);
-		setScore(0);
+		score = 0;
 		setPlayerBoostGauge(MAX_BOOST_GAUGE);
 		setBoostBan(false);
-		setTimeDecay(INITIAL_TIME_DECAY);
-		setTimeIncrement(INITIAL_TIME_INCREMENT);
-		setLandmineCount(0);
+		timeDecay = INITIAL_TIME_DECAY;
+		timeIncrement = INITIAL_TIME_INCREMENT;
+		landmineCount = 0;
 		setInGame(true);
+		setRestart(false);
 	}
 	
 	public static void decreaseTime() {
-		setCurrentTime(Math.max(0, currentTime - timeDecay));
+		currentTime = Math.max(0, currentTime - timeDecay);
 		if(isSlowed()) {
 			decreaseSlowTime();
 		}
 	}
 	
 	public static void increaseTime() {
-		setCurrentTime(Math.min(MAX_TIME, currentTime + timeIncrement));
+		currentTime = Math.min(MAX_TIME, currentTime + timeIncrement);
 	}
 	
 	public static boolean isSlowed() {
-		return getSlowTime() > 0 ? true : false;
+		return slowTime > 0;
 	}
 	
 	public static void triggerSlow() {
-		setSlowTime(SLOWED_TIME);
+		slowTime = SLOWED_TIME;
 	}
 	
 	public static void decreaseSlowTime() {
-		setSlowTime(Math.max(0, slowTime - SLOWED_TIME_DECAY));
+		slowTime = Math.max(0, slowTime - SLOWED_TIME_DECAY);
 	}
 	
 	public static void increasePlayerBoostGauge() {
@@ -88,11 +90,11 @@ public class GameController implements Commons {
 	}
 	
 	public static boolean canBoost() {
-		return getPlayerBoostGauge() > 0 && !isBoostBan() ? true : false;
+		return getPlayerBoostGauge() > 0 && !isBoostBan();
 	}
 	
 	public static boolean boostFull() {
-		return getPlayerBoostGauge() == MAX_BOOST_GAUGE ? true : false;
+		return getPlayerBoostGauge() == MAX_BOOST_GAUGE;
 	}
 	
 	public static boolean checkBoostBan() {
@@ -122,7 +124,7 @@ public class GameController implements Commons {
 	}
 	
 	public static void increaseScore() {
-		setScore(getScore() + 1);
+		score++;
 		updateTimeDecay();
 		updateTimeIncrement();
 		updateLandmineCount();
@@ -130,10 +132,6 @@ public class GameController implements Commons {
 	
 	public static int getScore() {
 		return score;
-	}
-
-	public static void setScore(int score) {
-		GameController.score = score;
 	}
 	
 	public static int getPlayerSpeed() {
@@ -157,7 +155,7 @@ public class GameController implements Commons {
 	}
 	
 	public static boolean boost() {
-		return isBoostTrying() && canBoost() ? true : false;
+		return isBoostTrying() && canBoost();
 	}
 	
 	public static int getPlayerState() {
@@ -179,18 +177,6 @@ public class GameController implements Commons {
 	public static double getCurrentTime() {
 		return currentTime;
 	}
-	
-	public static void setCurrentTime(double currentTime) {
-		GameController.currentTime = currentTime;
-	}
-	
-	public static int getSlowTime() {
-		return slowTime;
-	}
-	
-	public static void setSlowTime(int slowTime) {
-		GameController.slowTime = slowTime;
-	}
 
 	public static boolean isBoostTrying() {
 		return boostTrying;
@@ -207,41 +193,29 @@ public class GameController implements Commons {
 		int spriteY = b.getY();
 		if(b instanceof Landmine) {
 			return (playerX + 30 >= (spriteX) && playerX + PLAYER_WIDTH - 30 <= (spriteX + LANDMINE_WIDTH)
-						&& playerY + 100 >= (spriteY) && playerY + PLAYER_HEIGHT - 100 <= (spriteY + LANDMINE_HEIGHT)) ? true : false;
+						&& playerY + 100 >= (spriteY) && playerY + PLAYER_HEIGHT - 100 <= (spriteY + LANDMINE_HEIGHT));
 		}
 		else if(b instanceof Target) {
 			return (playerX + 80 >= (spriteX) && playerX + PLAYER_WIDTH - 80 <= (spriteX + TARGET_WIDTH)
-					&& playerY + 80 >= (spriteY) && playerY + PLAYER_HEIGHT - 80 <= (spriteY + TARGET_HEIGHT)) ? true : false;
+					&& playerY + 80 >= (spriteY) && playerY + PLAYER_HEIGHT - 80 <= (spriteY + TARGET_HEIGHT));
 		}
 		return false;
 	}
 	
 	public static boolean hasLandmine() {
-		return getLandmineCount() > 0 ? true : false;
-	}
-
-	public static double getTimeDecay() {
-		return timeDecay;
-	}
-
-	public static void setTimeDecay(double timeDecay) {
-		GameController.timeDecay = timeDecay;
+		return getLandmineCount() > 0;
 	}
 	
-	public static void updateTimeDecay() {
-		setTimeDecay(Math.min(MAX_TIME_DECAY, getTimeDecay()*1.01));
+	private static void updateTimeDecay() {
+		timeDecay = Math.min(MAX_TIME_DECAY, timeDecay * 1.01);
 	}
 
 	public static int getLandmineCount() {
 		return landmineCount;
 	}
-
-	public static void setLandmineCount(int landmineCount) {
-		GameController.landmineCount = landmineCount;
-	}
 	
 	public static void increaseLandmineCount() {
-		setLandmineCount(Math.min(MAX_LANDMINE_COUNT, getLandmineCount() + 1));
+		landmineCount = Math.min(MAX_LANDMINE_COUNT, landmineCount + 1);
 	}
 	
 	public static void updateLandmineCount() {
@@ -249,16 +223,22 @@ public class GameController implements Commons {
 			increaseLandmineCount();
 		}
 	}
-
-	public static double getTimeIncrement() {
-		return timeIncrement;
-	}
-
-	public static void setTimeIncrement(double timeIncrement) {
-		GameController.timeIncrement = timeIncrement;
-	}
 	
 	public static void updateTimeIncrement() {
-		setTimeIncrement(Math.max(MIN_TIME_INCREMENT, timeIncrement /= 1.002));
+		timeIncrement = Math.max(MIN_TIME_INCREMENT, timeIncrement /= 1.002);
+	}
+
+	public static boolean isRestart() {
+		if(restart) {
+			setRestart(false);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public static void setRestart(boolean restart) {
+		GameController.restart = restart;
 	}
 }
