@@ -139,18 +139,11 @@ public class GraphicsUtil implements Commons {
 	}
 
 	public static void drawGameOver(GraphicsContext g) {
-		g.setFill(Color.BLACK);
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		Image YD = new Image(ClassLoader.getSystemResource("images/Youdie2.png").toString());
+		WritableImage bg2 = new WritableImage(YD.getPixelReader(), WINDOW_WIDTH, WINDOW_HEIGHT);
+		g.drawImage(bg2, 0, 0);
 		
-//		Font font = Font.font( "font/MosterFriendBack.otf", FontWeight.BOLD, 64 );
-	    g.setFont(Font.loadFont("MonsterFreindBack.otf", 600));
-//	    g.setStroke(Color.WHITE);
-	    g.setLineWidth(1);		
-		g.setFill(Color.WHITE);
-		g.setTextAlign(TextAlignment.CENTER);
-        g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-//        GraphicsUtil.drawScore(g);
 	}
 	
 	public static void drawMenu(GraphicsContext g) {

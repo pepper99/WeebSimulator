@@ -18,7 +18,7 @@ public class AudioUtil {
 	
 	private static MediaPlayer[] bgm;
 	private static AudioClip[] sfx;
-	
+	private static AudioClip temp;
 	public static void init() {
 		sfxInit();
 		musicInit();
@@ -39,6 +39,7 @@ public class AudioUtil {
     		sfx[i] = new AudioClip(url);
     		sfx[i].setVolume(1);
     	}
+    	
 		
 	}
 	
@@ -62,6 +63,7 @@ public class AudioUtil {
 	
 	public static void playSFX(int type) {
 		sfx[type].play();
+		
 	}
 	
 	public static void stopSFX() {
@@ -69,7 +71,12 @@ public class AudioUtil {
 			s.stop();
 		}
 	}
-	
+	public static void play()// need to be deleted
+	{
+		String url = ClassLoader.getSystemResource("musics/sfx5.mp3").toString();
+		temp = new AudioClip(url);
+		temp.play();
+	}
 	public static void stopAudio() {
 		stopMusic();
 		stopSFX();
