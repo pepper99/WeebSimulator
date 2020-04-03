@@ -131,7 +131,6 @@ public class SceneUtil implements Commons {
 			public void handle(MouseEvent t) {
 				stage.setScene(gameScene);
 				stage.show();
-				GameController.setRestart(true);
 				animationTimer.start();
 				AudioUtil.playMusic(AudioUtil.MUSIC_GAME);
 			}
@@ -143,7 +142,6 @@ public class SceneUtil implements Commons {
 				stage.setScene(menuScene);
 				stage.show();
 				menuAnim.start();
-				animationTimer.stop();
 				AudioUtil.playMusic(AudioUtil.MUSIC_MENU);
 			}
 		}));

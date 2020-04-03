@@ -42,7 +42,6 @@ public class GameController implements Commons {
 	private static double timeDecay;
 	private static int landmineCount;
 	private static double timeIncrement;
-	private static boolean restart;
 
 	public static void initController() {
 		setInGame(true);
@@ -55,7 +54,6 @@ public class GameController implements Commons {
 		timeIncrement = INITIAL_TIME_INCREMENT;
 		landmineCount = 0;
 		setInGame(true);
-		setRestart(false);
 	}
 	
 	public static void decreaseTime() {
@@ -226,19 +224,5 @@ public class GameController implements Commons {
 	
 	public static void updateTimeIncrement() {
 		timeIncrement = Math.max(MIN_TIME_INCREMENT, timeIncrement /= 1.002);
-	}
-
-	public static boolean isRestart() {
-		if(restart) {
-			setRestart(false);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public static void setRestart(boolean restart) {
-		GameController.restart = restart;
 	}
 }

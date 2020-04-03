@@ -56,13 +56,12 @@ public class Main extends Application implements Commons {
 					update();
 					GraphicsUtil.doDrawing(graphicsContext, targets, player, landmines, floatingTextController);
 		    	}
-		    	else if(GameController.isRestart()) {
+		    	else {
 		    		gameInit();
 		    	}
 		    }
 		};
 		
-    	gameInit();
 		GraphicsUtil.init();
 		AudioUtil.init();
 		SceneUtil.init(stage, scene, animationTimer);
@@ -101,6 +100,7 @@ public class Main extends Application implements Commons {
 			GameController.setInGame(false);
 			AudioUtil.stopAudio();
 			stage.setScene(SceneUtil.getGameOverScene());
+			animationTimer.stop();
 		}
 		else {
 			GameController.decreaseTime();
