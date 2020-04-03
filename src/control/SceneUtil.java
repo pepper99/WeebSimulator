@@ -109,7 +109,7 @@ public class SceneUtil implements Commons {
         mediaPlayer.setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
-	        	root.getChildren().addAll(getDarkSoulsButton(WINDOW_WIDTH/2 - 110, 515, 90, 40,"Retry", new EventHandler<MouseEvent>() {
+	        	root.getChildren().addAll(getGameOverButton(WINDOW_WIDTH/2 - 110, 515, 90, 40,"Retry", new EventHandler<MouseEvent>() {
 	    			@Override
 	    			public void handle(MouseEvent t) {
 	    				
@@ -120,7 +120,7 @@ public class SceneUtil implements Commons {
 	    			}
 	    		}));
 	    		
-	    		root.getChildren().addAll(getDarkSoulsButton(WINDOW_WIDTH/2 + 110, 515, 90, 40,"Menu", new EventHandler<MouseEvent>() {
+	    		root.getChildren().addAll(getGameOverButton(WINDOW_WIDTH/2 + 110, 515, 90, 40,"Menu", new EventHandler<MouseEvent>() {
 	    			@Override
 	    			public void handle(MouseEvent t) {
 	    				stage.setScene(menuScene);
@@ -170,7 +170,7 @@ public class SceneUtil implements Commons {
 		GraphicsContext g = canvas.getGraphicsContext2D();
 		root.getChildren().add(canvas);
 		
-		root.getChildren().addAll(getDarkSoulsButton(WINDOW_WIDTH/2 - 110, 515, 90, 40,"Retry", new EventHandler<MouseEvent>() {
+		root.getChildren().addAll(getGameOverButton(WINDOW_WIDTH/2 - 110, 515, 90, 40,"Retry", new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
 				
@@ -181,7 +181,7 @@ public class SceneUtil implements Commons {
 			}
 		}));
 		
-		root.getChildren().addAll(getDarkSoulsButton(WINDOW_WIDTH/2 + 110,515, 90, 40,"Menu", new EventHandler<MouseEvent>() {
+		root.getChildren().addAll(getGameOverButton(WINDOW_WIDTH/2 + 110,515, 90, 40,"Menu", new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
 				stage.setScene(menuScene);
@@ -194,7 +194,7 @@ public class SceneUtil implements Commons {
 		
 		return scene;
 	}
-	private static Node[] getDarkSoulsButton(int x, int y, int width , int height,String text, EventHandler<MouseEvent> eventHandler)
+	private static Node[] getGameOverButton(int x, int y, int width , int height,String text, EventHandler<MouseEvent> eventHandler)
 	{
 		Ellipse ellipse = new Ellipse(x,y,160/2,50/2);
 		GaussianBlur guassianBlur = new GaussianBlur(35);
