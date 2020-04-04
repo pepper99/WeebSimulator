@@ -37,16 +37,14 @@ public class SceneUtil implements Commons {
 	private static Scene gameOverScene;
 	private static AnimationTimer animationTimer;
 	private static AnimationTimer menuAnim;
-	public static void init(Stage stage, Scene gameScene, AnimationTimer animationTimer) {
+	public static void init(Stage stage, Scene gameScene, AnimationTimer animationTimer) 
+	{
 		SceneUtil.stage = stage;
 		SceneUtil.gameScene = gameScene;
 		SceneUtil.animationTimer = animationTimer;
-		
-		menuScene 		= 	setMenuScene();
-		helpScene 		= 	setHelpScene();
-		
-
-		
+		menuScene 	= 	setMenuScene();
+		helpScene 	= 	setHelpScene();
+		setGameOverScene(0);
 	}
 
 	private static Scene setMenuScene() {
@@ -127,7 +125,7 @@ public class SceneUtil implements Commons {
 	public static Scene setHelpScene() {
 		return null;
 	}
-	private static void setGameOverScene() {
+	private static void setGameOverScene(int volume) {
 		Pane root = new Pane();
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		GraphicsContext g = canvas.getGraphicsContext2D();
@@ -164,7 +162,7 @@ public class SceneUtil implements Commons {
 		MediaView mediaView = new MediaView(mediaPlayer);
 		
 		mediaPlayer.setAutoPlay(true);
-		
+		mediaPlayer.setVolume(volume);
 		mediaPlayer.setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
@@ -283,7 +281,7 @@ public class SceneUtil implements Commons {
 	}
 	
 	public static Scene getGameOverScene() {
-		setGameOverScene();
+		setGameOverScene(1);
 		return gameOverScene;
 	}
 }
