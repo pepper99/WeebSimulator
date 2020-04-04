@@ -7,7 +7,7 @@ import base.Commons;
 public class Randomizer implements Commons {
 	private static final int LANDMINE_RADIUS = 60;
 	private static final int TARGET_RADIUS = 90;	
-	private static final int PLAYER_RADIUS = 100;
+	private static final int PLAYER_RADIUS = 140;
 	
 	public static final int LANDMINE_ITT = 4;
 	

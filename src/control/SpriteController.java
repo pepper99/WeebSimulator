@@ -29,6 +29,6 @@ public class SpriteController {
 			flashTimer = FLASH_DURATION;
 		}
 		flashTimer = Math.max(0, flashTimer - 1);
-		return flashTimer > 0 ? true : false;
+		return flashTimer > 0;
 	}
 }

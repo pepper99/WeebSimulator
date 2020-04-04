@@ -75,7 +75,7 @@ public class FloatingTextController {
 		}
 		
 		public boolean hasEnded() {
-			return getTimer() == 0 ? true : false;
+			return getTimer() == 0 ;
 		}
 		
 		public void updateTimer() {

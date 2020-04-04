@@ -21,14 +21,32 @@ import sprite.Target;
 
 public class GraphicsUtil implements Commons {
 	
-	private static WritableImage bg;
-	private static WritableImage menu;
+	private static final int BG_COUNTS = 3;
+	private static final int BG_CHANGE = 30;
 	
+	private static WritableImage[] bg;
+	private static WritableImage menuBG;
+	private static WritableImage menu;
+	private static WritableImage statusBar;
+	private static Font scoreFont;
+	private static WritableImage gameOver;
 	public static void init() {
-		bg = new WritableImage(new Image(ClassLoader.getSystemResource("images/bg.png").toString()).getPixelReader(),
-				WINDOW_WIDTH, WINDOW_HEIGHT);
+		bg = new WritableImage[BG_COUNTS];
+		for(int i = 0; i < BG_COUNTS; i++) {
+			bg[i] = new WritableImage(new Image(ClassLoader.getSystemResource("images/bg" + i + ".png").toString()).getPixelReader(),
+					WINDOW_WIDTH, WINDOW_HEIGHT);
+		}
+		
 		menu = new WritableImage(new Image(ClassLoader.getSystemResource("images/menu.png").toString()).getPixelReader(),
 				WINDOW_WIDTH, WINDOW_HEIGHT);
+		menuBG = new WritableImage(new Image(ClassLoader.getSystemResource("images/menu_bg.png").toString()).getPixelReader(),
+				MENU_BG_WIDTH, MENU_BG_HEIGHT);
+		statusBar = new WritableImage(new Image(ClassLoader.getSystemResource("images/status_bar.png").toString()).getPixelReader(),
+				STATUSBAR_WIDTH, STATUSBAR_HEIGHT);
+		scoreFont = Font.loadFont(ClassLoader.getSystemResource("fonts/Fipps-Regular.otf").toString(), SCORE_FONTSIZE);
+		gameOver = new WritableImage(new Image(ClassLoader.getSystemResource("images/Youdie2.png").toString()).getPixelReader(),
+				WINDOW_WIDTH, WINDOW_HEIGHT);
+	
 	}
 
 	public static void doDrawing(GraphicsContext g, ArrayList<Target> targets, Player player,  ArrayList<Landmine> landmines,
@@ -45,11 +63,12 @@ public class GraphicsUtil implements Commons {
 		if(!floatingTextController.isEmpty()) drawFloatingText(g, floatingTextController);
 		GraphicsUtil.drawTimeBar(g);
 		GraphicsUtil.drawBoostBar(g);
+		g.drawImage(statusBar, STATUSBAR_X, STATUSBAR_Y);
 		GraphicsUtil.drawScore(g);
 	}
 	
 	public static void drawBG(GraphicsContext g) {
-		g.drawImage(bg, 0, 0);
+		g.drawImage(bg[(GameController.getScore() / BG_CHANGE) % BG_COUNTS], 0, 0);
 	}
 
 	public static void drawTargets(GraphicsContext g, ArrayList<Target> targets) {
@@ -95,16 +114,18 @@ public class GraphicsUtil implements Commons {
 	
 	public static void drawScore(GraphicsContext g) {
 		String scoreMessage = Integer.toString(GameController.getScore());
-	    g.setFont(Font.font( "Helvetica", FontWeight.BOLD, 24));
-	    g.setLineWidth(1);
-		g.setFill(Color.WHITE);
+		g.setFont(scoreFont);
+	    g.setLineWidth(2);
+	    g.setStroke(Color.WHITE);
+	  	g.setFill(Color.BLACK);
 		g.setTextAlign(TextAlignment.CENTER);
-		g.fillText(scoreMessage, WINDOW_WIDTH / 2, 100 );
+		g.fillText(scoreMessage, WINDOW_WIDTH / 2, SCORE_Y );
 	}
 	
 	public static void drawTimeBar(GraphicsContext g) {
 		double time = GameController.getCurrentTime();
 		double timeFraction = 1 - time / GameController.MAX_TIME;
+		time *= 0.625;
 		int dRed = (int) (timeFraction * 206);
 		int dGreen = (int) (timeFraction * 201);
 		g.setFill(Color.rgb(24 + dRed, 219 - dGreen, 18));
@@ -121,9 +142,10 @@ public class GraphicsUtil implements Commons {
 			}
         }
 		else {
-			g.setFill(Color.DEEPSKYBLUE);
+			g.setFill(BOOSTBAR_COLOR);
 		}
-		g.fillRect((WINDOW_WIDTH - GameController.getPlayerBoostGauge()) / 2, BOOSTBAR_Y, GameController.getPlayerBoostGauge(), BOOSTBAR_HEIGHT);
+		g.fillRect((WINDOW_WIDTH - GameController.getPlayerBoostGauge()) / 2, BOOSTBAR_Y,
+				GameController.getPlayerBoostGauge(), BOOSTBAR_HEIGHT);
 	}
 	
 	public static void drawFloatingText(GraphicsContext g, FloatingTextController floatingTextController) {
@@ -139,14 +161,16 @@ public class GraphicsUtil implements Commons {
 	}
 
 	public static void drawGameOver(GraphicsContext g) {
-
-		Image YD = new Image(ClassLoader.getSystemResource("images/Youdie2.png").toString());
-		WritableImage bg2 = new WritableImage(YD.getPixelReader(), WINDOW_WIDTH, WINDOW_HEIGHT);
-		g.drawImage(bg2, 0, 0);
+		
+		g.drawImage(gameOver, 0, 0);
 		
 	}
 	
-	public static void drawMenu(GraphicsContext g) {
+	public static void drawMenu(GraphicsContext g, int x, int y) {	
+		g.drawImage(menuBG, x - MENU_BG_WIDTH, y - MENU_BG_HEIGHT);
+		g.drawImage(menuBG, x, y - MENU_BG_HEIGHT);
+		g.drawImage(menuBG, x - MENU_BG_WIDTH, y);
+		g.drawImage(menuBG, x, y);
 		g.drawImage(menu, 0, 0);
 	}
 }
