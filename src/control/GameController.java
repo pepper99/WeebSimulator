@@ -207,7 +207,7 @@ public class GameController implements Commons {
 	private static void updateTimeDecay() {
 		timeDecay = Math.min(MAX_TIME_DECAY, timeDecay * 1.01);
 	}
-
+	
 	public static int getLandmineCount() {
 		return landmineCount;
 	}

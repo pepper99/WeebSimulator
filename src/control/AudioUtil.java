@@ -7,13 +7,13 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 public class AudioUtil {
-
-	public static final int SFX_COUNT = 5;
+	public static final int SFX_COUNT = 6;
 	public static final int SFX_WOW = 0;
 	public static final int SFX_BRUH = 1;	
 	public static final int SFX_KHALED = 2;
 	public static final int SFX_CLICK = 3;	
 	public static final int SFX_HOVER = 4;
+	public static final int SFX_SELECT = 5;
 
 	public static final int MUSIC_COUNT = 2;
 	public static final int MUSIC_GAME = 0;
@@ -73,7 +73,7 @@ public class AudioUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static boolean isPlayingMusic() throws AudioUtilException {
 		if(currentMusic == -1) return false;
 		else if(currentMusic >= 0 && currentMusic < MUSIC_COUNT) return true;
@@ -81,9 +81,10 @@ public class AudioUtil {
 			throw new AudioUtilException("Current music is nonexistent");
 		}
 	}
-	
+  
 	public static void playSFX(int type) {
 		sfx[type].play();
+		
 	}
 	
 	public static void stopSFX() {

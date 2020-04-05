@@ -28,8 +28,9 @@ public class GraphicsUtil implements Commons {
 	private static WritableImage menuBG;
 	private static WritableImage menu;
 	private static WritableImage statusBar;
+	private static WritableImage gameOver;
 	private static Font scoreFont;
-	
+  
 	public static void init() {
 		bg = new WritableImage[BG_COUNTS];
 		for(int i = 0; i < BG_COUNTS; i++) {
@@ -43,6 +44,8 @@ public class GraphicsUtil implements Commons {
 				MENU_BG_WIDTH, MENU_BG_HEIGHT);
 		statusBar = new WritableImage(new Image(ClassLoader.getSystemResource("images/status_bar.png").toString()).getPixelReader(),
 				STATUSBAR_WIDTH, STATUSBAR_HEIGHT);
+		gameOver = new WritableImage(new Image(ClassLoader.getSystemResource("images/Youdie2.png").toString()).getPixelReader(),
+				WINDOW_WIDTH, WINDOW_HEIGHT);
 		scoreFont = Font.loadFont(ClassLoader.getSystemResource("fonts/Fipps-Regular.otf").toString(), SCORE_FONTSIZE);
 	}
 
@@ -111,13 +114,13 @@ public class GraphicsUtil implements Commons {
 	
 	public static void drawScore(GraphicsContext g) {
 		String score = Integer.toString(GameController.getScore());
-	    g.setFont(scoreFont);
-	    g.setLineWidth(2);
-	    g.setStroke(Color.WHITE);
+		g.setFont(scoreFont);
+		g.setLineWidth(2);
+		g.setStroke(Color.WHITE);
 		g.setFill(Color.BLACK);
 		g.setTextAlign(TextAlignment.CENTER);
 		g.fillText(score, WINDOW_WIDTH / 2, SCORE_Y);
-        g.strokeText(score, WINDOW_WIDTH / 2, SCORE_Y);
+		g.strokeText(score, WINDOW_WIDTH / 2, SCORE_Y);
 	}
 	
 	public static void drawTimeBar(GraphicsContext g) {
@@ -159,19 +162,7 @@ public class GraphicsUtil implements Commons {
 	}
 
 	public static void drawGameOver(GraphicsContext g) {
-		g.setFill(Color.BLACK);
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		
-		Font font = Font.font( "Helvetica", FontWeight.BOLD, 64 );
-	    g.setFont(font);
-	    g.setStroke(Color.WHITE);
-	    g.setLineWidth(1);		
-		g.setFill(Color.RED);
-		g.setTextAlign(TextAlignment.CENTER);
-        g.fillText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        g.strokeText("Game Over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 );
-        GraphicsUtil.drawScore(g);
-        System.out.println("test");
+		g.drawImage(gameOver, 0, 0);
 	}
 	
 	public static void drawMenu(GraphicsContext g, int x, int y) {

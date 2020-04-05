@@ -73,7 +73,7 @@ public class FloatingTextController {
 		public void startTimer() {
 			setTimer(START_TIME);
 		}
-		
+
 		public boolean isEnded() {
 			return getTimer() == 0;
 		}
