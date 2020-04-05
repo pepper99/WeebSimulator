@@ -12,8 +12,8 @@ public interface Commons {
     int BORDER_TOP = 100;
     int BORDER_BOTTOM = 40;
     
-	int MENU_BG_WIDTH = 1740;
-	int MENU_BG_HEIGHT = 1522;
+    int MENU_BG_WIDTH = 1740;
+    int MENU_BG_HEIGHT = 1522;
     Color MENU_COLOR = Color.rgb(159, 73, 133);
     
     int STATUSBAR_X = 211;

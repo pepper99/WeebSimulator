@@ -45,7 +45,7 @@ public class GameController implements Commons {
 
 	public static void initController() {
 		setInGame(true);
-		setCurrentTime(START_TIME);
+		currentTime = START_TIME;
 		setPlayerState(PLAYER_NORMAL);
 		score = 0;
 		setPlayerBoostGauge(MAX_BOOST_GAUGE);
@@ -131,8 +131,6 @@ public class GameController implements Commons {
 	public static int getScore() {
 		return score;
 	}
-
-
 	
 	public static int getPlayerSpeed() {
 		int playerSpeed;
@@ -177,18 +175,6 @@ public class GameController implements Commons {
 	public static double getCurrentTime() {
 		return currentTime;
 	}
-	
-	public static void setCurrentTime(double currentTime) {
-		GameController.currentTime = currentTime;
-	}
-	
-	public static int getSlowTime() {
-		return slowTime;
-	}
-	
-	public static void setSlowTime(int slowTime) {
-		GameController.slowTime = slowTime;
-	}
 
 	public static boolean isBoostTrying() {
 		return boostTrying;
@@ -205,17 +191,17 @@ public class GameController implements Commons {
 		int spriteY = b.getY();
 		if(b instanceof Landmine) {
 			return (playerX + 30 >= (spriteX) && playerX + PLAYER_WIDTH - 30 <= (spriteX + LANDMINE_WIDTH)
-						&& playerY + 100 >= (spriteY) && playerY + PLAYER_HEIGHT - 100 <= (spriteY + LANDMINE_HEIGHT)) ? true : false;
+						&& playerY + 100 >= (spriteY) && playerY + PLAYER_HEIGHT - 100 <= (spriteY + LANDMINE_HEIGHT));
 		}
 		else if(b instanceof Target) {
 			return (playerX + 80 >= (spriteX) && playerX + PLAYER_WIDTH - 80 <= (spriteX + TARGET_WIDTH)
-					&& playerY + 80 >= (spriteY) && playerY + PLAYER_HEIGHT - 80 <= (spriteY + TARGET_HEIGHT)) ? true : false;
+					&& playerY + 80 >= (spriteY) && playerY + PLAYER_HEIGHT - 80 <= (spriteY + TARGET_HEIGHT));
 		}
 		return false;
 	}
 	
 	public static boolean hasLandmine() {
-		return getLandmineCount() > 0 ? true : false;
+		return getLandmineCount() > 0;
 	}
 	
 	private static void updateTimeDecay() {

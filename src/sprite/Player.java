@@ -1,4 +1,4 @@
-package sprite;
+	package sprite;
 
 import base.Commons;
 import control.GameController;
