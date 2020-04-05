@@ -33,7 +33,7 @@ public class Main extends Application implements Commons {
 	private FloatingTextController floatingTextController;
 	
 	private GraphicsContext graphicsContext;
-	private static AnimationTimer animationTimer;
+	private static AnimationTimer gameAnim;
 	private Stage stage;
 	private Scene scene;
 	
@@ -49,7 +49,7 @@ public class Main extends Application implements Commons {
 
 		root.getChildren().add(canvas);
 		
-		animationTimer = new AnimationTimer(){			
+		gameAnim = new AnimationTimer(){			
 		    public void handle(long currentNanoTime)
 		    {
 		    	if(GameController.isInGame()) {
@@ -64,14 +64,13 @@ public class Main extends Application implements Commons {
 		
 		GraphicsUtil.init();
 		AudioUtil.init();
-		SceneUtil.init(stage, scene, animationTimer);
+		SceneUtil.init(stage, scene, gameAnim);
 		
 		stage.setTitle("Weeb Simulator 2020");
 		stage.getIcons().add(new Image(ClassLoader.getSystemResource("images/icon.png").toString()));
-		stage.setScene(SceneUtil.getMenuScene());
+		SceneUtil.setScene(stage, SceneUtil.MENU);
 		stage.setResizable(false);
 		stage.show();
-		AudioUtil.playMusic(AudioUtil.MUSIC_MENU);
 	}
 	
 	private void gameInit() {
@@ -98,9 +97,7 @@ public class Main extends Application implements Commons {
 		// timer
 		if (GameController.getCurrentTime() == 0) {
 			GameController.setInGame(false);
-			AudioUtil.stopAudio();
-			stage.setScene(SceneUtil.getGameOverScene());
-			animationTimer.stop();
+			SceneUtil.setScene(stage, SceneUtil.GAMEOVER);
 		}
 		else {
 			GameController.decreaseTime();

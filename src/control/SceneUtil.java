@@ -1,7 +1,5 @@
 package control;
 
-import java.io.File;
-
 import base.Commons;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -26,25 +24,37 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class SceneUtil implements Commons {
 	
+	public static final int MENU = 0;
+	public static final int GAME = 1;
+	public static final int GAMEOVER = 2;
+	public static final int HELP = 3;
+	public static final int NONE = -1;
+	
+	private static int previousSceneType;
 	private static Stage stage;
 	private static Scene gameScene;
 	private static Scene menuScene;
 	private static Scene helpScene;
 	private static Scene gameOverScene;
-	private static AnimationTimer animationTimer;
+	private static AnimationTimer gameAnim;
 	private static AnimationTimer menuAnim;
+	private static MediaPlayer gameOverPlayer;
+	private static MediaPlayer introPlayer;
+	private static MediaPlayer teamIntroPlayer;
   
-	public static void init(Stage stage, Scene gameScene, AnimationTimer animationTimer) {
+	public static void init(Stage stage, Scene gameScene, AnimationTimer gameAnim) {
 		SceneUtil.stage = stage;
 		SceneUtil.gameScene = gameScene;
-		SceneUtil.animationTimer = animationTimer;
-		menuScene 	= 	setMenuScene();
-		helpScene 	= 	setHelpScene();
-		setGameOverScene(0);
+		SceneUtil.gameAnim = gameAnim;
+		menuScene = setMenuScene();
+		helpScene = setHelpScene();
+		gameOverScene = setGameOverScene();
+		previousSceneType = NONE;
 	}
 
 	private static Scene setMenuScene() {
@@ -70,21 +80,18 @@ public class SceneUtil implements Commons {
 		buttons[0] = getMenuButton(61, 400, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
+				introPlayer.stop();
 				menuAnim.stop();
-				stage.setScene(gameScene);
-				stage.show();
-				animationTimer.start();
 				AudioUtil.playSFX(AudioUtil.SFX_CLICK);
-				AudioUtil.playMusic(AudioUtil.MUSIC_GAME);
+				setScene(stage, GAME);
 			}
 		});
 		buttons[1] = getMenuButton(61, 475, 140, 75, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
 				menuAnim.stop();
-				stage.setScene(helpScene);
-				stage.show();
 				AudioUtil.playSFX(AudioUtil.SFX_CLICK);
+				setScene(stage, HELP);
 			}
 		});
 		buttons[2] = getMenuButton(61, 550, 140, 75, new EventHandler<MouseEvent>() {
@@ -96,25 +103,36 @@ public class SceneUtil implements Commons {
 			}
 		});
 		
-		MediaPlayer mediaPlayer0 = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/teamintro.mp4").toString()));
-		mediaPlayer0.setAutoPlay(true);
-		MediaPlayer mediaPlayer1 = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/intro.mp4").toString()));
-		MediaView mediaView = new MediaView(mediaPlayer0);
-		mediaPlayer0.setOnEndOfMedia(new Runnable() {
+		teamIntroPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/teamintro.mp4").toString()));
+		introPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/intro.mp4").toString()));
+		MediaView mediaView = new MediaView(teamIntroPlayer);
+		teamIntroPlayer.setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
-	        	mediaView.setMediaPlayer(mediaPlayer1);
-	        	mediaPlayer1.play();
+	        	mediaView.setMediaPlayer(introPlayer);
+	        	introPlayer.play();
 	        	root.getChildren().addAll(buttons[0]);
 	        	root.getChildren().addAll(buttons[1]);
 	        	root.getChildren().addAll(buttons[2]);
 	        }
 		});
-		mediaPlayer1.setOnEndOfMedia(new Runnable() {
+		introPlayer.setOnEndOfMedia(new Runnable() {
 	        @Override
 	        public void run() {
 	        	mediaView.setVisible(false);
 	        	menuAnim.start();
+	        }
+		});
+		introPlayer.setOnStopped(new Runnable() {
+	        @Override
+	        public void run() {
+	        	mediaView.setVisible(false);
+	        }
+		});
+		introPlayer.setOnPlaying(new Runnable() {
+	        @Override
+	        public void run() {
+	        	mediaView.setVisible(true);
 	        }
 		});
 		
@@ -125,80 +143,73 @@ public class SceneUtil implements Commons {
 	public static Scene setHelpScene() {
 		return null;
 	}
-	private static void setGameOverScene(int volume) {
+	
+	private static Scene setGameOverScene() {
 		Pane root = new Pane();
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		GraphicsContext g = canvas.getGraphicsContext2D();
-		
 		root.getChildren().add(canvas);
+		
 		Node[][] button = new Node[2][3];
 		button[0] = getGameOverButton(530, 515, 90, 40, "Retry", new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
-				
-				menuAnim.stop();
-				stage.setScene(gameScene);
-				stage.show();
-				animationTimer.start();
-				AudioUtil.playMusic(AudioUtil.MUSIC_GAME);
+				setScene(stage, GAME);
 			}
 		});
 		button[1] = getGameOverButton(750, 515, 90, 40, "Menu", new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
-				menuAnim.stop();
-				stage.setScene(menuScene);
-				stage.show();
-				menuAnim.start();
-				AudioUtil.playMusic(AudioUtil.MUSIC_MENU);
+				setScene(stage, MENU);
 			}
 		});
 		root.getChildren().addAll(button[0]);
 		root.getChildren().addAll(button[1]);
-		MediaPlayer mediaPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/3.mp4").toString()));
-	
-		MediaView mediaView = new MediaView(mediaPlayer);
-		mediaPlayer.setAutoPlay(true);
-		mediaPlayer.setVolume(volume);
-		mediaPlayer.setOnEndOfMedia(new Runnable() {
+		
+		gameOverPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource("videos/gameover.mp4").toString()));
+		MediaView mediaView = new MediaView(gameOverPlayer);
+		
+		gameOverPlayer.setOnPlaying(new Runnable() {
 	        @Override
 	        public void run() {
-
+	        	mediaView.setVisible(true);
+	        }
+	    });		
+		gameOverPlayer.setOnEndOfMedia(new Runnable() {
+	        @Override
+	        public void run() {
 	        	mediaView.setVisible(false);
 	        	GraphicsUtil.drawGameOver(g);
 	        }
-	        
 	    });
-		 
-		 root.getChildren().add(mediaView);
-		 Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		 scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-				public void handle(KeyEvent event)
-				{
-					mediaView.setVisible(false);
-					mediaPlayer.setVolume(0);
-		        	GraphicsUtil.drawGameOver(g);
-				}
-	        });
-	        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	
-				@Override
-				public void handle(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					mediaView.setVisible(false);
-					mediaPlayer.setVolume(0);
-		        	GraphicsUtil.drawGameOver(g);
-					
-				}
-				
-	        });
-		 
-		 gameOverScene = scene;
+		
+		root.getChildren().add(mediaView);
+		
+		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+				mediaView.setVisible(false);
+				gameOverPlayer.stop();
+		        GraphicsUtil.drawGameOver(g);
+			}
+		});
+		
+		scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				mediaView.setVisible(false);
+				gameOverPlayer.stop();
+				GraphicsUtil.drawGameOver(g);
+			}
+		});
+		
+		return scene;
 	}
 
 
-	private static Node[] getGameOverButton(int x, int y, int width , int height, String message, EventHandler<MouseEvent> eventHandler)
+	private static Node[] getGameOverButton(int x, int y, int width , int height, String message, 
+			EventHandler<MouseEvent> eventHandler)
 	{
 		Ellipse ellipse = new Ellipse(x, y, 80, 25);
 		GaussianBlur guassianBlur = new GaussianBlur(35);
@@ -209,14 +220,14 @@ public class SceneUtil implements Commons {
 		Rectangle rect = getButton(x - 35, y - 20, width, height, eventHandler, new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
 			{
-				AudioUtil.playSFX(5);
+				AudioUtil.playSFX(AudioUtil.SFX_SELECT);
 				ellipse.setVisible(newValue);
 			}
 		});
 		
 		Text text = new Text(x - 45, y + 15, message);
 		text.setFill(Color.WHITE);
-		text.setFont(Font.loadFont("file:res/fonts/OptimusPrinceps.ttf", 35.16));
+		text.setFont(Font.loadFont(ClassLoader.getSystemResource("fonts/OptimusPrinceps.ttf").toString(), 35.16));
     
 		Node[] nodes = {ellipse, text, rect} ;
 		return nodes;
@@ -240,16 +251,6 @@ public class SceneUtil implements Commons {
 		return nodes;
 	}
 	
-	private static Rectangle getButton(int x, int y, int width, int height, EventHandler<MouseEvent> eventHandler) 
-	{
-		Rectangle rect = new Rectangle(x, y, width, height);
-		rect.setOpacity(1);
-		rect.setFill(Color.RED);
-		rect.setOnMouseClicked(eventHandler);
-	
-		return rect;
-	}
-	
 	private static Rectangle getButton(int x, int y, int width, int height, EventHandler<MouseEvent> eventHandler, 
 			ChangeListener<Boolean> changeListener) {
 		Rectangle rect = new Rectangle(x, y, width, height);
@@ -258,17 +259,38 @@ public class SceneUtil implements Commons {
 		rect.hoverProperty().addListener(changeListener);
 		return rect;
 	}
-
-	public static Scene getMenuScene() {
-		return menuScene;
-	}
 	
-	public static Scene getHelpScene() {
-		return helpScene;
-	}
-	
-	public static Scene getGameOverScene() {
-		setGameOverScene(1);
-		return gameOverScene;
+	public static void setScene(Stage stage, int type) {
+		switch(type) {
+		case MENU:
+			if(previousSceneType == NONE) {
+				teamIntroPlayer.play();
+			}
+			else {
+				System.out.println("test");
+				introPlayer.seek(Duration.ZERO);
+				introPlayer.play();
+			}
+			stage.setScene(menuScene);
+			AudioUtil.playMusic(AudioUtil.MUSIC_MENU);
+			break;
+		case GAME:
+			if(previousSceneType == MENU) menuAnim.stop();
+			stage.setScene(gameScene);
+			gameAnim.start();
+			AudioUtil.playMusic(AudioUtil.MUSIC_GAME);
+			break;
+		case GAMEOVER:
+			gameAnim.stop();
+			AudioUtil.stopAudio();
+			gameOverPlayer.seek(Duration.ZERO);
+			gameOverPlayer.play();
+			stage.setScene(gameOverScene);
+			break;
+		case HELP:
+			stage.setScene(helpScene);
+			break;
+		}
+		previousSceneType = type;
 	}
 }

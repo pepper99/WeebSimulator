@@ -44,7 +44,7 @@ public class GraphicsUtil implements Commons {
 				MENU_BG_WIDTH, MENU_BG_HEIGHT);
 		statusBar = new WritableImage(new Image(ClassLoader.getSystemResource("images/status_bar.png").toString()).getPixelReader(),
 				STATUSBAR_WIDTH, STATUSBAR_HEIGHT);
-		gameOver = new WritableImage(new Image(ClassLoader.getSystemResource("images/Youdie2.png").toString()).getPixelReader(),
+		gameOver = new WritableImage(new Image(ClassLoader.getSystemResource("images/gameover.png").toString()).getPixelReader(),
 				WINDOW_WIDTH, WINDOW_HEIGHT);
 		scoreFont = Font.loadFont(ClassLoader.getSystemResource("fonts/Fipps-Regular.otf").toString(), SCORE_FONTSIZE);
 	}
