@@ -31,8 +31,16 @@ public class GameController implements Commons {
 	private static final int LANDMINE_STAGE = 12;
 	private static final int MAX_LANDMINE_COUNT = 5;
 	
-	private static boolean inGame;
-	private static double currentTime;
+	private static final int STARTING_TIME = 10;
+
+	public static final int STATE_GAMEOVER = 0;
+	public static final int STATE_INGAME = 1;
+	public static final int STATE_RESTART = 2;
+	
+	protected static final int MAP_COUNT = 3;
+	private static final int MAP_CHANGE = 30;
+	
+	private static int gameState;
 	private static int playerState;
 	private static int score;
 	private static int playerBoostGauge;
@@ -43,9 +51,15 @@ public class GameController implements Commons {
 	private static int landmineCount;
 	private static double timeIncrement;
 
-	public static void initController() {
-		setInGame(true);
-		currentTime = START_TIME;
+	
+	private static double gameTime;
+	private static int globalTimer;	
+	
+	private static int previousMap;	
+	private static int currentMap;
+
+	public static void init() {
+		gameTime = START_TIME;
 		setPlayerState(PLAYER_NORMAL);
 		score = 0;
 		setPlayerBoostGauge(MAX_BOOST_GAUGE);
@@ -53,18 +67,37 @@ public class GameController implements Commons {
 		timeDecay = INITIAL_TIME_DECAY;
 		timeIncrement = INITIAL_TIME_INCREMENT;
 		landmineCount = 0;
-		setInGame(true);
+		globalTimer = 0;
+		currentMap = 0;
+		
+		GraphicsTimer.init();
+	}
+	
+	public static void gameTick() {
+		globalTimer++;
+		decreaseTime();		
+		checkBoostBan();
+		
+		if(isBoostTrying() && canBoost()) {
+			decreasePlayerBoostGauge();
+		}
+		else if(!boostFull()) {
+			increasePlayerBoostGauge();
+		}
+		
+		GraphicsTimer.increaseTime();
+		updateMap();
 	}
 	
 	public static void decreaseTime() {
-		currentTime = Math.max(0, currentTime - timeDecay);
+		gameTime = Math.max(0, gameTime - timeDecay);
 		if(isSlowed()) {
 			decreaseSlowTime();
 		}
 	}
 	
 	public static void increaseTime() {
-		currentTime = Math.min(MAX_TIME, currentTime + timeIncrement);
+		gameTime = Math.min(MAX_TIME, gameTime + timeIncrement);
 	}
 	
 	public static boolean isSlowed() {
@@ -151,7 +184,7 @@ public class GameController implements Commons {
     	}
 		return playerSpeed;
 	}
-	
+
 	public static boolean boost() {
 		return isBoostTrying() && canBoost();
 	}
@@ -163,17 +196,9 @@ public class GameController implements Commons {
 	public static void setPlayerState(int playerState) {
 		GameController.playerState = playerState;
 	}
-
-	public static boolean isInGame() {
-		return inGame;
-	}
 	
-	public static void setInGame(boolean inGame) {
-		GameController.inGame = inGame;
-	}
-	
-	public static double getCurrentTime() {
-		return currentTime;
+	public static double getGameTime() {
+		return gameTime;
 	}
 
 	public static boolean isBoostTrying() {
@@ -212,17 +237,53 @@ public class GameController implements Commons {
 		return landmineCount;
 	}
 	
-	public static void increaseLandmineCount() {
+	private static void increaseLandmineCount() {
 		landmineCount = Math.min(MAX_LANDMINE_COUNT, landmineCount + 1);
 	}
 	
-	public static void updateLandmineCount() {
+	private static void updateLandmineCount() {
 		if(score % LANDMINE_STAGE == 0) {
 			increaseLandmineCount();
 		}
 	}
 	
-	public static void updateTimeIncrement() {
+	private static void updateTimeIncrement() {
 		timeIncrement = Math.max(MIN_TIME_INCREMENT, timeIncrement /= 1.002);
+	}
+
+	public static int getGlobalTimer() {
+		return globalTimer;
+	}
+
+	public static boolean isStarting() {
+		return getGlobalTimer() < STARTING_TIME;
+	}
+
+	public static int getGameState() {
+		return gameState;
+	}
+
+	public static void setGameState(int gameState) {
+		GameController.gameState = gameState;
+	}
+	
+	public static int getCurrentMap() {
+		return currentMap;
+	}
+	
+	private static void updateMap() {
+		updatePreviousMap();
+		currentMap = getScore() / MAP_CHANGE % MAP_COUNT;
+		if(!isStarting() && isMapChange()) {
+			AudioUtil.playMusic(currentMap);
+		}
+	}
+	
+	public static boolean isMapChange() {
+		return previousMap != currentMap;
+	}
+	
+	private static void updatePreviousMap() {
+		previousMap = getCurrentMap();
 	}
 }

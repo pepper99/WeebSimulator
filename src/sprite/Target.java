@@ -41,7 +41,7 @@ public class Target extends Sprite implements Commons, Type {
 	protected void initImageArrays() {
     	imageArrays = new WritableImage[MAX_TYPE][FRAMES];
     	for(int i = 0; i < MAX_TYPE; i++) {
-    		Image ii = new Image(ClassLoader.getSystemResource("images/target_" + i + ".png").toString());
+    		Image ii = new Image(ClassLoader.getSystemResource("images/target/" + i + ".png").toString());
     		for(int j = 0; j < FRAMES; j++) {
     			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), TARGET_WIDTH * j, 0, TARGET_WIDTH, PLAYER_HEIGHT);
     		}

@@ -47,7 +47,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	protected void initImageArrays() {
     	imageArrays = new WritableImage[MAX_TYPE][FRAMES];
     	for(int i = 0; i < MAX_TYPE; i++) {
-    		Image ii = new Image(ClassLoader.getSystemResource("images/player_" + i + ".png").toString());
+    		Image ii = new Image(ClassLoader.getSystemResource("images/player/" + i + ".png").toString());
     		for(int j = 0; j < FRAMES; j++) {
     			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
     		}
@@ -119,19 +119,19 @@ public class Player extends Sprite implements Commons, Type, Movable {
         	GameController.setBoostTrying(true);
         }
 
-        if (key.equals(KeyCode.LEFT)) {
+        if (key.equals(KeyCode.LEFT) || key.equals(KeyCode.A)) {
         	keyPressed[0] = true;
         }
 
-        if (key.equals(KeyCode.RIGHT)) {
+        if (key.equals(KeyCode.RIGHT) || key.equals(KeyCode.D)) {
         	keyPressed[1] = true;
         }
 
-        if (key.equals(KeyCode.UP)) {
+        if (key.equals(KeyCode.UP) || key.equals(KeyCode.W)) {
         	keyPressed[2] = true;
         }
 
-        if (key.equals(KeyCode.DOWN)) {
+        if (key.equals(KeyCode.DOWN) || key.equals(KeyCode.S)) {
         	keyPressed[3] = true;
         }
     }
@@ -146,19 +146,19 @@ public class Player extends Sprite implements Commons, Type, Movable {
     	
     	playerSpeed = GameController.getPlayerSpeed();
 
-        if (key.equals(KeyCode.LEFT)) {
+        if (key.equals(KeyCode.LEFT) || key.equals(KeyCode.A)) {
         	keyPressed[0] = false;
         }
 
-        if (key.equals(KeyCode.RIGHT)) {
+        if (key.equals(KeyCode.RIGHT) || key.equals(KeyCode.D)) {
         	keyPressed[1] = false;
         }
 
-        if (key.equals(KeyCode.UP)) {
+        if (key.equals(KeyCode.UP) || key.equals(KeyCode.W)) {
         	keyPressed[2] = false;
         }
 
-        if (key.equals(KeyCode.DOWN)) {
+        if (key.equals(KeyCode.DOWN) || key.equals(KeyCode.S)) {
         	keyPressed[3] = false;
         }
     }

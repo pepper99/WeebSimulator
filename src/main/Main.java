@@ -23,7 +23,6 @@ import control.GameController;
 import control.GraphicsUtil;
 import control.Randomizer;
 import control.SceneUtil;
-import control.SpriteController;
 
 public class Main extends Application implements Commons {
 	
@@ -34,14 +33,11 @@ public class Main extends Application implements Commons {
 	
 	private GraphicsContext graphicsContext;
 	private static AnimationTimer gameAnim;
-	private Stage stage;
 	private Scene scene;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		this.stage = stage;
-		
-		StackPane root = new StackPane();		
+		StackPane root = new StackPane();
 		scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 		graphicsContext = canvas.getGraphicsContext2D();
@@ -52,12 +48,16 @@ public class Main extends Application implements Commons {
 		gameAnim = new AnimationTimer(){			
 		    public void handle(long currentNanoTime)
 		    {
-		    	if(GameController.isInGame()) {
+		    	if(GameController.getGameState() == GameController.STATE_INGAME) {
 					update();
-					GraphicsUtil.doDrawing(graphicsContext, targets, player, landmines, floatingTextController);
+					GraphicsUtil.doGameDrawing(graphicsContext, targets, player, landmines, floatingTextController);
+		    	}
+		    	else if(GameController.getGameState() == GameController.STATE_RESTART) {
+		    		gameInit();
+		    		GameController.setGameState(GameController.STATE_INGAME);
 		    	}
 		    	else {
-		    		gameInit();
+		    		GameController.setGameState(GameController.STATE_GAMEOVER);
 		    	}
 		    }
 		};
@@ -68,7 +68,7 @@ public class Main extends Application implements Commons {
 		
 		stage.setTitle("Weeb Simulator 2020");
 		stage.getIcons().add(new Image(ClassLoader.getSystemResource("images/icon.png").toString()));
-		SceneUtil.setScene(stage, SceneUtil.MENU);
+		SceneUtil.switchTo(SceneUtil.MENU);
 		stage.setResizable(false);
 		stage.show();
 	}
@@ -88,31 +88,21 @@ public class Main extends Application implements Commons {
 			};
 		});
 		
-		GameController.initController();
-		SpriteController.initContorller();
+		GameController.init();
 	}
 
 	private void update() {
 
 		// timer
-		if (GameController.getCurrentTime() == 0) {
-			GameController.setInGame(false);
-			SceneUtil.setScene(stage, SceneUtil.GAMEOVER);
+		if (GameController.getGameTime() == 0) {
+    		GameController.setGameState(GameController.STATE_GAMEOVER);
+			SceneUtil.switchTo(SceneUtil.GAMEOVER);
 		}
 		else {
-			GameController.decreaseTime();
-			GameController.checkBoostBan();
-			SpriteController.increaseTime();
+			GameController.gameTick();
 			
 			if(!floatingTextController.isEmpty()) {
 				floatingTextController.updateTimer();
-			}
-			
-			if(GameController.isBoostTrying() && GameController.canBoost()) {
-				GameController.decreasePlayerBoostGauge();
-			}
-			else if(!GameController.boostFull()) {
-				GameController.increasePlayerBoostGauge();
 			}
 		}
     	

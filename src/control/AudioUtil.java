@@ -15,9 +15,13 @@ public class AudioUtil {
 	public static final int SFX_HOVER = 4;
 	public static final int SFX_SELECT = 5;
 
-	public static final int MUSIC_COUNT = 2;
-	public static final int MUSIC_GAME = 0;
-	public static final int MUSIC_MENU = 1;
+	public static final int MUSIC_COUNT = 5;
+	public static final int MUSIC_GAME0 = 0;
+	public static final int MUSIC_GAME1 = 1;
+	public static final int MUSIC_GAME2 = 2;
+	public static final int MUSIC_MENU = 3;
+	public static final int MUSIC_HELP = 4;
+	public static final int MUSIC_NONE = -1;
 	
 	private static MediaPlayer[] music;
 	private static AudioClip[] sfx;
@@ -26,13 +30,13 @@ public class AudioUtil {
 	public static void init() {
 		sfxInit();
 		musicInit();
-		currentMusic = -1;
+		currentMusic = MUSIC_NONE;
 	}
 	
 	public static void musicInit() {
 		music = new MediaPlayer[MUSIC_COUNT];
     	for(int i = 0; i < MUSIC_COUNT; i++) {
-    		music[i] = new MediaPlayer(new Media(ClassLoader.getSystemResource("musics/music" + i + ".mp3").toString()));
+    		music[i] = new MediaPlayer(new Media(ClassLoader.getSystemResource("audio/music/" + i + ".mp3").toString()));
     		music[i].setVolume(0.5);
     	}
 	}
@@ -40,7 +44,7 @@ public class AudioUtil {
 	public static void sfxInit() {
 		sfx = new AudioClip[SFX_COUNT];
     	for(int i = 0; i < SFX_COUNT; i++) {
-    		String url = ClassLoader.getSystemResource("musics/sfx" + i + ".mp3").toString();
+    		String url = ClassLoader.getSystemResource("audio/sfx/" + i + ".mp3").toString();
     		sfx[i] = new AudioClip(url);
     		sfx[i].setVolume(1);
     	}
@@ -59,6 +63,7 @@ public class AudioUtil {
 	        	}
 	        }
 	    });
+		music[type].seek(Duration.ZERO);
 		music[type].play();
 		currentMusic = type;
 	}
@@ -67,7 +72,7 @@ public class AudioUtil {
 		try {
 			if(isPlayingMusic()) {
 				music[currentMusic].stop();
-				currentMusic = -1;
+				currentMusic = MUSIC_NONE;
 			}
 		} catch (AudioUtilException e) {
 			e.printStackTrace();
@@ -75,10 +80,10 @@ public class AudioUtil {
 	}
 
 	public static boolean isPlayingMusic() throws AudioUtilException {
-		if(currentMusic == -1) return false;
+		if(currentMusic == MUSIC_NONE) return false;
 		else if(currentMusic >= 0 && currentMusic < MUSIC_COUNT) return true;
 		else {
-			throw new AudioUtilException("Current music is nonexistent");
+			throw new AudioUtilException("Invalid current music (nonexistent)");
 		}
 	}
   

@@ -34,12 +34,10 @@ public abstract class Sprite implements Visible, Coordinate {
     }
 
     public void setImage(WritableImage image) {
-
         this.image = image;
     }
 
     public WritableImage getImage() {
-
         return image;
     }
 
