@@ -1,4 +1,6 @@
-	package sprite;
+package sprite;
+
+import java.util.HashMap;
 
 import base.Commons;
 import control.GameController;
@@ -15,8 +17,6 @@ public class Player extends Sprite implements Commons, Type, Movable {
 	public static final int TYPE_ALIEN = 0;
 	public static final int TYPE_ANIME_GIRL = 1;
 	public static final int TYPE_INF_GAUNTLET = 2;
-	
-	private static final int FRAMES = 2;
 
     private int type;
     private int playerSpeed;
@@ -44,15 +44,28 @@ public class Player extends Sprite implements Commons, Type, Movable {
     }
     
     @Override
-	protected void initImageArrays() {
-    	imageArrays = new WritableImage[MAX_TYPE][FRAMES];
+	protected void initImageMaps() {
+    	imageMaps = new HashMap<Integer, WritableImage[]>();
     	for(int i = 0; i < MAX_TYPE; i++) {
     		Image ii = new Image(ClassLoader.getSystemResource("images/player/" + i + ".png").toString());
-    		for(int j = 0; j < FRAMES; j++) {
-    			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+    		int frames = (int) (ii.getWidth() / PLAYER_WIDTH);
+    		imageMaps.put(i, new WritableImage[frames]);
+    		for(int j = 0; j < frames; j++) {
+    			imageMaps.get(i)[j] = new WritableImage(ii.getPixelReader(), PLAYER_WIDTH * j, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
     		}
     	}
     }
+	
+    @Override
+	public void updateSpriteIndex() {
+		spriteIndex = (spriteIndex + 1) % imageMaps.get(getType()).length;
+		updateImage();
+	}
+
+	@Override
+	public void updateImage() {
+        setImage(imageMaps.get(getType())[spriteIndex]);
+	}
     
     private boolean[] initKeyArray() {
     	boolean[] newArray = {false, false, false, false};
@@ -64,15 +77,11 @@ public class Player extends Sprite implements Commons, Type, Movable {
 		return type;
 	}
 
-	@Override
+    @Override
 	public void setType(int type) {
 		this.type = type;
+        spriteIndex = 0;
 		updateImage();
-	}
-
-	@Override
-	public void updateImage() {
-        setImage(imageArrays[getType()][spriteIndex]);
 	}
 
     public void act() {

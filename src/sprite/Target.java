@@ -1,5 +1,7 @@
 package sprite;
 
+import java.util.HashMap;
+
 import base.Commons;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -11,8 +13,6 @@ public class Target extends Sprite implements Commons, Type {
 	public static final int TYPE_ALIEN = 0;
 	public static final int TYPE_ANIME_GIRL = 1;
 	public static final int TYPE_INF_GAUNTLET = 2;
-	
-	private static final int FRAMES = 2;
 	
 	private int type;
 
@@ -28,29 +28,40 @@ public class Target extends Sprite implements Commons, Type {
         updateImage();
     }
 
+    @Override
 	public int getType() {
 		return type;
 	}
 
+    @Override
 	public void setType(int type) {
 		this.type = type;
+        spriteIndex = 0;
 		updateImage();
 	}
     
     @Override
-	protected void initImageArrays() {
-    	imageArrays = new WritableImage[MAX_TYPE][FRAMES];
+	protected void initImageMaps() {
+    	imageMaps = new HashMap<Integer, WritableImage[]>();
     	for(int i = 0; i < MAX_TYPE; i++) {
     		Image ii = new Image(ClassLoader.getSystemResource("images/target/" + i + ".png").toString());
-    		for(int j = 0; j < FRAMES; j++) {
-    			imageArrays[i][j] = new WritableImage(ii.getPixelReader(), TARGET_WIDTH * j, 0, TARGET_WIDTH, PLAYER_HEIGHT);
+    		int frames = (int) (ii.getWidth() / TARGET_WIDTH);
+    		imageMaps.put(i, new WritableImage[frames]);
+    		for(int j = 0; j < frames; j++) {
+    			imageMaps.get(i)[j] = new WritableImage(ii.getPixelReader(), TARGET_WIDTH * j, 0, TARGET_WIDTH, TARGET_HEIGHT);
     		}
     	}
     }
 	
+    @Override
+	public void updateSpriteIndex() {
+		spriteIndex = (spriteIndex + 1) % imageMaps.get(getType()).length;
+		updateImage();
+	}
+
 	@Override
 	public void updateImage() {
-        setImage(imageArrays[getType()][spriteIndex]);
+        setImage(imageMaps.get(getType())[spriteIndex]);
 	}
 
 	@Override

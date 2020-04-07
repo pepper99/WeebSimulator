@@ -1,5 +1,7 @@
 package sprite.base;
 
+import java.util.HashMap;
+
 import base.Coordinate;
 import base.Visible;
 import javafx.scene.image.WritableImage;
@@ -15,12 +17,12 @@ public abstract class Sprite implements Visible, Coordinate {
     protected int dy;
 	protected int spriteIndex;
 	protected int spriteTimer;
-    protected WritableImage[][] imageArrays;
+    protected HashMap<Integer, WritableImage[]> imageMaps;
 
     public Sprite() {
     	spriteIndex = 0;
         visible = true;
-        initImageArrays();
+        initImageMaps();
     }
 
     @Override
@@ -64,12 +66,9 @@ public abstract class Sprite implements Visible, Coordinate {
     public abstract int getTrueX();
     public abstract int getTrueY();
 	
-	public void updateSpriteIndex() {
-		spriteIndex = (spriteIndex + 1) % 2;
-		updateImage();
-	}
+	public abstract void updateSpriteIndex();
 	
-	protected abstract void initImageArrays();
+	protected abstract void initImageMaps();
 	
 	public abstract void updateImage();
 	
