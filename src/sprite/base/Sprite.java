@@ -16,7 +16,6 @@ public abstract class Sprite implements Visible, Coordinate {
     protected int dx;
     protected int dy;
 	protected int spriteIndex;
-	protected int spriteTimer;
     protected HashMap<Integer, WritableImage[]> imageMaps;
 
     public Sprite() {

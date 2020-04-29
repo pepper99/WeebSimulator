@@ -45,6 +45,7 @@ public class FloatingTextController {
 	
 	class FloatingText implements Visible, Coordinate {
 		public static final double START_TIME = 80;
+		private static final double TICK = 5;
 		
 		private String message;
 		private double timer;
@@ -54,34 +55,26 @@ public class FloatingTextController {
 		private Color color;
 		
 		public FloatingText(String message, int x, int y, Color color) {
-			startTimer();
+			timer = START_TIME;
 			setVisible(true);
-			setMessage(message);
+			this.message = message;
 			setX(x);
 			setY(y);
-			setColor(color);
+			this.color = color;
 		}
 
 		public String getMessage() {
 			return message;
 		}
 
-		public void setMessage(String message) {
-			this.message = message;
+		private boolean isEnded() {
+			return timer == 0;
 		}
 		
-		public void startTimer() {
-			setTimer(START_TIME);
-		}
-
-		public boolean isEnded() {
-			return getTimer() == 0;
-		}
-		
-		public void updateTimer() {
-			setTimer(getTimer() - 1);
-			if(getTimer() % 5 == 0) {
-				setY(getY() - 1);
+		private void updateTimer() {
+			timer -= 1;
+			if(timer % TICK == 0) {
+				y -= 1;
 			}
 		}
 
@@ -89,8 +82,8 @@ public class FloatingTextController {
 			return timer;
 		}
 
-		public void setTimer(double timer) {
-			this.timer = timer;
+		public Color getColor() {
+			return color;
 		}
 
 	    @Override
@@ -122,13 +115,5 @@ public class FloatingTextController {
 	    public int getX() {
 	        return x;
 	    }
-
-		public Color getColor() {
-			return color;
-		}
-
-		public void setColor(Color color) {
-			this.color = color;
-		}
 	}
 }

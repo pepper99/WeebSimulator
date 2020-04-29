@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -31,7 +30,6 @@ public class Main extends Application implements Commons {
 	private Player player;
 	private FloatingTextController floatingTextController;
 	
-	private GraphicsContext graphicsContext;
 	private static AnimationTimer gameAnim;
 	private Scene scene;
 	
@@ -40,7 +38,6 @@ public class Main extends Application implements Commons {
 		StackPane root = new StackPane();
 		scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);		
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
-		graphicsContext = canvas.getGraphicsContext2D();
 		floatingTextController = new FloatingTextController();
 
 		root.getChildren().add(canvas);
@@ -50,7 +47,7 @@ public class Main extends Application implements Commons {
 		    {
 		    	if(GameController.getGameState() == GameController.STATE_INGAME) {
 					update();
-					GraphicsUtil.doGameDrawing(graphicsContext, targets, player, landmines, floatingTextController);
+					GraphicsUtil.doGameDrawing(canvas.getGraphicsContext2D(), targets, player, landmines, floatingTextController);
 		    	}
 		    	else if(GameController.getGameState() == GameController.STATE_RESTART) {
 		    		gameInit();

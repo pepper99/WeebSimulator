@@ -10,26 +10,26 @@ public class GraphicsTimer {
 	private static final int SCREENFLASH_DURATION = 30;
 	private static final double SCREENFLASH_MAX_OPACITY = 0.7;
 	
-	private static int staticTimer;
+	private static int timer;
 	private static int boostFlashTimer;
 	private static int screenFlashTimer;
 	
 	public static void init() {
-		staticTimer = 1;
+		timer = 1;
 	}
 	
 	public static void increaseTime() {
-		staticTimer = (staticTimer + 1) % MAX_TIME;
+		timer = (timer + 1) % MAX_TIME;
 	}
 	
 	public static void switchSprite(Sprite sprite) {
-		if (staticTimer % sprite.getSpriteInterval() == 0) {
+		if (timer % sprite.getSpriteInterval() == 0) {
 			sprite.updateSpriteIndex();
 		}
 	}
 	
 	public static boolean boostFlash() {
-		if (staticTimer % BOOSTFLASH_INTERVAL == 0) {
+		if (timer % BOOSTFLASH_INTERVAL == 0) {
 			boostFlashTimer = BOOSTFLASH_DURATION;
 		}
 		boostFlashTimer = Math.max(0, boostFlashTimer - 1);

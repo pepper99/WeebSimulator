@@ -20,10 +20,6 @@ public class Landmine extends Sprite implements Commons {
         updateImage();
     }
     
-    public void trigger() {
-    	
-    }
-    
     @Override
 	protected void initImageMaps() {
     	imageMaps = new HashMap<Integer, WritableImage[]>();

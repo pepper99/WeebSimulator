@@ -40,7 +40,7 @@ public class Player extends Sprite implements Commons, Type, Movable {
         setX(WINDOW_WIDTH / 2);
         setY(WINDOW_HEIGHT / 2);
         
-        setPlayerSpeed(GameController.getPlayerSpeed());
+        playerSpeed = GameController.getPlayerSpeed();
     }
     
     @Override
@@ -83,7 +83,8 @@ public class Player extends Sprite implements Commons, Type, Movable {
         spriteIndex = 0;
 		updateImage();
 	}
-
+    
+    @Override
     public void act() {
     	playerSpeed = GameController.getPlayerSpeed();
     	dx = 0; dy = 0;
@@ -174,10 +175,6 @@ public class Player extends Sprite implements Commons, Type, Movable {
 
 	public int getPlayerSpeed() {
 		return playerSpeed;
-	}
-
-	public void setPlayerSpeed(int playerSpeed) {
-		this.playerSpeed = playerSpeed;
 	}
 
 	@Override
