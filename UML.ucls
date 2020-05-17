@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="false" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="sprite.base.Type" project="WeebSimulator" 
+    file="/WeebSimulator/src/sprite/base/Type.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="106" x="1943" y="2013"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="control.GraphicsTimer" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/GraphicsTimer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="216" x="139" y="-101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="3" language="java" name="sprite.base.Movable" project="WeebSimulator" 
+    file="/WeebSimulator/src/sprite/base/Movable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="165" x="2089" y="2013"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="4" language="java" name="sprite.base.Sprite" project="WeebSimulator" 
+    file="/WeebSimulator/src/sprite/base/Sprite.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="477" width="251" x="2108" y="-101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="control.GraphicsUtil" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/GraphicsUtil.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1071" width="553" x="-145" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="control.FloatingTextController" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/FloatingTextController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="229" x="2399" y="-101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="sprite.Target" project="WeebSimulator" 
+    file="/WeebSimulator/src/sprite/Target.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="149" x="1919" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="8" language="java" name="base.Commons" project="WeebSimulator" 
+    file="/WeebSimulator/src/base/Commons.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="351" width="135" x="1209" y="2013"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="9" language="java" name="exception.AudioUtilException" project="WeebSimulator" 
+    file="/WeebSimulator/src/exception/AudioUtilException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="151" x="680" y="-101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="10" language="java" name="base.Visible" project="WeebSimulator" 
+    file="/WeebSimulator/src/base/Visible.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="142" x="2294" y="2013"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="11" language="java" name="control.FloatingTextController.FloatingText" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/FloatingTextController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="423" width="175" x="2399" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="control.SceneUtil" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/SceneUtil.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="603" width="452" x="448" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="sprite.Landmine" project="WeebSimulator" 
+    file="/WeebSimulator/src/sprite/Landmine.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="144" x="1735" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="control.Randomizer" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/Randomizer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="213" x="940" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="exception.SceneUtilException" project="WeebSimulator" 
+    file="/WeebSimulator/src/exception/SceneUtilException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="154" x="1156" y="-101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="control.AudioUtil" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/AudioUtil.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="549" width="145" x="1636" y="-101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="main.Main" project="WeebSimulator" file="/WeebSimulator/src/main/Main.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="279" width="236" x="1193" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="18" language="java" name="base.Coordinate" project="WeebSimulator" 
+    file="/WeebSimulator/src/base/Coordinate.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="103" x="2476" y="2013"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="19" language="java" name="control.GameController" project="WeebSimulator" 
+    file="/WeebSimulator/src/control/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1485" width="226" x="1469" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="sprite.Player" project="WeebSimulator" 
+    file="/WeebSimulator/src/sprite/Player.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="459" width="165" x="2108" y="488"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="21">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="22">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="23">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="24">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <generalization id="25">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <realization id="26">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="27">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="28">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="18"/>  
+  </realization>  
+  <realization id="29">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <nesting id="30">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="11"/>  
+  </nesting>  
+  <realization id="31">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="32">    
+    <bendpoint x="2303" y="488"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="33">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="34">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <realization id="36">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="37">    
+    <bendpoint x="2324" y="488"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="18"/>  
+  </realization>  
+  <generalization id="38">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <realization id="39">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

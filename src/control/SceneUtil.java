@@ -171,7 +171,7 @@ public class SceneUtil implements Commons {
 		return scene;
 	}
 	
-	public static Scene setHelpScene() {
+	private static Scene setHelpScene() {
 		StackPane root = new StackPane();
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);

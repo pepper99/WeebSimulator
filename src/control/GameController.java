@@ -62,8 +62,8 @@ public class GameController implements Commons {
 		gameTime = START_TIME;
 		setPlayerState(PLAYER_NORMAL);
 		score = 0;
-		setPlayerBoostGauge(MAX_BOOST_GAUGE);
-		setBoostBan(false);
+		playerBoostGauge = MAX_BOOST_GAUGE;
+		boostBan = false;
 		timeDecay = INITIAL_TIME_DECAY;
 		timeIncrement = INITIAL_TIME_INCREMENT;
 		landmineCount = 0;
@@ -112,12 +112,12 @@ public class GameController implements Commons {
 		slowTime = Math.max(0, slowTime - SLOWED_TIME_DECAY);
 	}
 	
-	public static void increasePlayerBoostGauge() {
-		setPlayerBoostGauge( Math.min(MAX_BOOST_GAUGE, getPlayerBoostGauge() + BOOST_INCREMENT));
+	private static void increasePlayerBoostGauge() {
+		playerBoostGauge = Math.min(MAX_BOOST_GAUGE, getPlayerBoostGauge() + BOOST_INCREMENT);
 	}
 	
-	public static void decreasePlayerBoostGauge() {
-		setPlayerBoostGauge( Math.max(0, getPlayerBoostGauge() - BOOST_DECAY));
+	private static void decreasePlayerBoostGauge() {
+		playerBoostGauge = Math.max(0, getPlayerBoostGauge() - BOOST_DECAY);
 	}
 	
 	public static boolean canBoost() {
@@ -128,30 +128,22 @@ public class GameController implements Commons {
 		return getPlayerBoostGauge() == MAX_BOOST_GAUGE;
 	}
 	
-	public static boolean checkBoostBan() {
+	private static boolean checkBoostBan() {
 		if(getPlayerBoostGauge() == 0) {
-			setBoostBan(true);
+			boostBan = true;
 		}
 		else if(getPlayerBoostGauge() == MAX_BOOST_GAUGE) {
-			setBoostBan(false);
+			boostBan = false;
 		}
 		return isBoostBan();
-	}
-	
-	public static void setBoostBan(boolean boostBan) {
-		GameController.boostBan = boostBan;
 	}
 	
 	public static boolean isBoostBan() {
 		return boostBan;
 	}
 
-		public static int getPlayerBoostGauge() {
+	public static int getPlayerBoostGauge() {
 		return playerBoostGauge;
-	}
-
-	public static void setPlayerBoostGauge(int playerBoostGauge) {
-		GameController.playerBoostGauge = playerBoostGauge;
 	}
 	
 	public static void increaseScore() {
@@ -168,7 +160,7 @@ public class GameController implements Commons {
 	public static int getPlayerSpeed() {
 		int playerSpeed;
 		
-		switch(getPlayerState()) {
+		switch(playerState) {
 		case PLAYER_NORMAL:
 			playerSpeed = DEFAULT_PLAYER_SPEED;
 			break;
@@ -187,10 +179,6 @@ public class GameController implements Commons {
 
 	public static boolean boost() {
 		return isBoostTrying() && canBoost();
-	}
-	
-	public static int getPlayerState() {
-		return playerState;
 	}
 
 	public static void setPlayerState(int playerState) {
@@ -237,13 +225,9 @@ public class GameController implements Commons {
 		return landmineCount;
 	}
 	
-	private static void increaseLandmineCount() {
-		landmineCount = Math.min(MAX_LANDMINE_COUNT, landmineCount + 1);
-	}
-	
 	private static void updateLandmineCount() {
 		if(score % LANDMINE_STAGE == 0) {
-			increaseLandmineCount();
+			landmineCount = Math.min(MAX_LANDMINE_COUNT, landmineCount + 1);
 		}
 	}
 	

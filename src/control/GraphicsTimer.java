@@ -3,7 +3,7 @@ package control;
 import sprite.base.Sprite;
 
 public class GraphicsTimer {
-	public static final int MAX_TIME = 60; //LCM of all intervals
+	private static final int MAX_TIME = 60; //LCM of all intervals
 	private static final int BOOSTFLASH_INTERVAL = 20;
 	private static final int BOOSTFLASH_DURATION = 11;
 	
